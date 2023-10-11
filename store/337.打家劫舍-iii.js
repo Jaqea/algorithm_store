@@ -22,8 +22,10 @@ const traverse = (node) => {
 
   let left = traverse(node.left);
   let right = traverse(node.right);
+
   let noStolen = Math.max(left[1], left[0]) + Math.max(right[0], right[1]);
   let stolen = node.val + left[0] + right[0];
+
   return [noStolen, stolen];
 };
 var rob = function (root) {
