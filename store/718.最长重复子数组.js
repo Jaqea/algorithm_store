@@ -11,17 +11,17 @@
  * @return {number}
  */
 var findLength = function (nums1, nums2) {
-  let dp = new Array(nums1.length + 1).fill(0);
+  let dp = new Array(nums2.length + 1).fill(0),
+    max = 0;
 
   for (let i = 1; i < nums1.length + 1; i++) {
     for (let j = nums2.length; j > 0; j--) {
-      if (nums1[i - 1] === nums2[j - 1]) dp[j] = Math.max(dp[j - 1] + 1, dp[j]);
+      if (nums1[i - 1] === nums2[j - 1]) dp[j] = dp[j - 1] + 1;
       else dp[j] = 0;
+      if (max < dp[j]) max = dp[j];
     }
   }
 
-  console.log(dp);
-
-  return Math.max(...dp);
+  return max;
 };
 // @lc code=end
