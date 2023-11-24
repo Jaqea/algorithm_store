@@ -11,24 +11,21 @@
  */
 let res;
 let path;
-const dfs = (graph, start) => {
-  if (start === graph.length - 1) {
+const dfs = (graph, x) => {
+  if (x === graph.length - 1) {
     const item = [...path];
     res.push(item);
   }
-  console.log(path);
 
-  for (let i = start; i < graph.length; i++) {
-    path.push(i);
-    for (let j = 0; j < graph[i].length; j++) {
-      dfs(graph, graph[i][j]);
-    }
+  for (let i = 0; i < graph[x].length; i++) {
+    path.push(graph[x][i]);
+    dfs(graph, graph[x][i]);
     path.pop();
   }
 };
 var allPathsSourceTarget = function (graph) {
   res = [];
-  path = [];
+  path = [0];
   dfs(graph, 0);
   return res;
 };
