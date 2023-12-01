@@ -11,16 +11,8 @@
  */
 
 const dfs = (grid, x, y) => {
-  console.log(x, y);
-  if (
-    grid[x][y] === 1 &&
-    (x === 0 || x === grid.length - 1 || y === 0 || y === grid[0].length - 1)
-  ) {
-    console.log("aasd");
-    num = 0;
-    return;
-  }
-
+  grid[x][y] = 0;
+  num++;
   for (let i = 0; i < 4; i++) {
     const nextX = x + dir[0][i];
     const nextY = y + dir[1][i];
@@ -32,7 +24,6 @@ const dfs = (grid, x, y) => {
       !vaildity[nextX][nextY] &&
       grid[nextX][nextY] === 1
     ) {
-      num++;
       vaildity[nextX][nextY] = 1;
       dfs(grid, nextX, nextY);
     }
@@ -42,22 +33,35 @@ const dfs = (grid, x, y) => {
 let vaildity, dir, num;
 
 var numEnclaves = function (grid) {
-  let res = 0;
-  vaildity = new Array(grid.length).fill().map(() => Array(grid[0].length));
+  vaildity = new Array(grid.length)
+    .fill()
+    .map(() => Array(grid[0].length).fill(0));
   dir = [
     [-1, 0, 1, 0],
     [0, 1, 0, -1],
   ];
+
   for (let i = 0; i < grid.length; i++) {
-    for (let j = 0; j < grid[0].length; j++) {
+    if (grid[i][0] === 1 && !vaildity[i][0]) dfs(grid, i, 0);
+    if (grid[i][grid[0].length - 1] === 1 && !vaildity[i][grid[0].length - 1])
+      dfs(grid, i, grid[0].length - 1);
+  }
+
+  for (let j = 0; j < grid[0].length; j++) {
+    if (grid[0][j] === 1 && !vaildity[0][j]) dfs(grid, 0, j);
+    if (grid[grid.length - 1][j] === 1 && !vaildity[grid.length - 1][j])
+      dfs(grid, grid.length - 1, j);
+  }
+
+  num = 0;
+  for (let i = 1; i < grid.length - 1; i++) {
+    for (let j = 1; j < grid[0].length - 1; j++) {
       if (!vaildity[i][j] && grid[i][j] === 1) {
-        num = 1;
         vaildity[i][j] = 1;
         dfs(grid, i, j);
-        res += num;
       }
     }
   }
-  return res;
+  return num;
 };
 // @lc code=end
