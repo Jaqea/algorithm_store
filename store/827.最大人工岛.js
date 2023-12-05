@@ -56,14 +56,35 @@ var largestIsland = function (grid) {
     }
   }
 
-  for (let value in map.entries()) res = Math.max(res, value);
+  for (let value of map.values()) {
+    res = Math.max(res, value);
+  }
 
   for (let i = 0; i < grid.length; i++) {
     for (let j = 0; j < grid[0].length; j++) {
       if (grid[i][j] === 0 && !vaildity[i][j]) {
+        s = 0;
+        let set = new Set();
+        for (let k = 0; k < 4; k++) {
+          const nextX = i + dir[0][k];
+          const nextY = j + dir[1][k];
+          if (
+            nextX >= 0 &&
+            nextY >= 0 &&
+            nextX < grid.length &&
+            nextY < grid[0].length &&
+            vaildity[nextX][nextY]
+          ) {
+            set.add(vaildity[nextX][nextY]);
+          }
+        }
+        for (let value of set.values()) s += map.get(value);
+        s++;
+        res = Math.max(res, s);
       }
     }
   }
-  console.log(vaildity);
+
+  return res;
 };
 // @lc code=end
