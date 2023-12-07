@@ -25,29 +25,32 @@ const compare = (str1, str2) => {
 const findPath = (str, wordList) => {
   const path = [];
   for (let i of wordList) {
-    if (compare(str, i) && !map.has(i)) path.push(i);
+    if (compare(str, i) && !map.has(i)) {
+      path.push(i);
+    }
   }
-  // console.log(path);
   return path;
 };
 
 const bfs = (beginWord, endWord, wordList) => {
   const queue = [];
-  let num = (front = rear = 0);
+  let front = (rear = 0),
+    path = 1;
   queue[rear++] = beginWord;
   while (front !== rear) {
     const item = queue[front++];
-    if (!map.has(item)) map.set(item, 1);
-    num++;
-    if (item === endWord) return num;
+    if (!map.has(item)) map.set(item, path);
     const paths = findPath(item, wordList);
-    for (let i of paths) queue[rear++] = i;
-    console.log(item, paths, queue.slice(front));
+    for (let i of paths) {
+      map.set(i, map.get(item) + 1);
+      queue[rear++] = i;
+    }
   }
 };
 
 var ladderLength = function (beginWord, endWord, wordList) {
   map = new Map();
-  return bfs(beginWord, endWord, wordList);
+  bfs(beginWord, endWord, wordList);
+  return map.has(endWord) ? map.get(endWord) : 0;
 };
 // @lc code=end
