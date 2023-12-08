@@ -19,7 +19,7 @@ const compare = (str1, str2) => {
     if (str1[i] === str2[i]) num++;
   }
 
-  return num === 2;
+  return str1.length - num === 1;
 };
 
 const findPath = (str, wordList) => {
