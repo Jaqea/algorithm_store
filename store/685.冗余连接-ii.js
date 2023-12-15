@@ -27,7 +27,7 @@ const isSame = (u, v) => {
 };
 
 const join = (u, v) => {
-  item = [u, v];
+  const item = [u, v];
   u = find(u);
   v = find(v);
   if (u === v) {
@@ -40,7 +40,7 @@ const join = (u, v) => {
 var findRedundantDirectedConnection = function (edges) {
   const M = edges.length;
   father = new Array(M + 1).fill(-1);
-  init();
+  init(M);
   for (let i = 0; i < M; i++) join(edges[i][0], edges[i][1]);
 
   return res;
