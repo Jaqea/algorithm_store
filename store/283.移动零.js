@@ -28,12 +28,21 @@ var moveZeroes = function (nums) {
   //   if (index >= nums.length - count) nums[index] = 0;
   // });
   // 写法二：
-  let slow, fast, count;
-  count = 0;
-  for (slow = 0, fast = 0; fast < nums.length; fast++) {
-    if (nums[fast] !== 0) nums[slow++] = nums[fast];
-    else count++;
+  // let slow, fast, count;
+  // count = 0;
+  // for (slow = 0, fast = 0; fast < nums.length; fast++) {
+  //   if (nums[fast] !== 0) nums[slow++] = nums[fast];
+  //   else count++;
+  // }
+  // for (fast = nums.length - count; fast < nums.length; fast++) nums[fast] = 0;
+
+  // 写法三
+  let slow = (fast = 0);
+  while (fast !== nums.length) {
+    while (nums[fast] === 0) fast++;
+    if (fast < nums.length) nums[slow++] = nums[fast++];
   }
-  for (fast = nums.length - count; fast < nums.length; fast++) nums[fast] = 0;
+  while (slow !== nums.length) nums[slow++] = 0;
+  return nums;
 };
 // @lc code=end
