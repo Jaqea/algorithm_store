@@ -23,14 +23,24 @@ var searchInsert = function (nums, target) {
   // });
   // return res;
   /** 法二: 二分法 */
-  let left, right, middle;
-  left = 0;
-  right = nums.length - 1;
+  // let left, right, middle;
+  // left = 0;
+  // right = nums.length - 1;
+  // while (left <= right) {
+  //   middle = Math.floor((left + right) / 2);
+  //   if (target < nums[middle]) right = middle - 1;
+  //   if (target > nums[middle]) left = middle + 1;
+  //   if (target == nums[middle]) return middle;
+  // }
+  // return left;
+
+  let left, right, mid;
+  (left = 0), (right = nums.length - 1);
   while (left <= right) {
-    middle = Math.floor((left + right) / 2);
-    if (target < nums[middle]) right = middle - 1;
-    if (target > nums[middle]) left = middle + 1;
-    if (target == nums[middle]) return middle;
+    mid = Math.floor((right + left) / 2);
+    if (nums[mid] > target) right = mid - 1;
+    else if (nums[mid] < target) left = mid + 1;
+    else return mid;
   }
   return left;
 };
