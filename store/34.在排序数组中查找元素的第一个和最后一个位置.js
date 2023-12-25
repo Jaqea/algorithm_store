@@ -52,14 +52,33 @@ const rightVal = (nums, target) => {
   //   return [leftVal(nums, target), rightVal(nums, target)];
   // };
 
-  let left, right, mid;
+  let left,
+    right,
+    leftBorder = (rightBorder = -1);
+  if (target > nums[nums.length - 1] || target < nums[0]) return [-1, -1];
+
+  (left = 0), (right = nums.length - 1);
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    if (nums[mid] > target) right = mid - 1;
+    else {
+      left = mid + 1;
+      rightBorder = left;
+    }
+  }
+
   (left = 0), (right = nums.length - 1);
   while (left <= right) {
-    mid = Math.floor((left + right) / 2);
-    if (nums[mid] > target) right = mid - 1;
-    else if (nums[mid] < target) left = mid + 1;
-    else break;
+    const mid = Math.floor((left + right) / 2);
+    if (nums[mid] < target) left = mid + 1;
+    else {
+      right = mid - 1;
+      leftBorder = right;
+    }
   }
-  console.log(left, right);
+  if (leftBorder === -1 && rightBorder === -1) return [-1, -1];
+  if (rightBorder - leftBorder > 1) return [leftBorder + 1, rightBorder - 1];
+  return [-1, -1];
 };
 // @lc code=end
