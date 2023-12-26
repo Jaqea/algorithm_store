@@ -35,22 +35,42 @@ var swapPairs = function (head) {
   // }
   // return head;
   // 法二：虚拟头节点
-  if (head && head.next) {
-    let vHead, p, q, cur;
-    vHead = new ListNode();
-    vHead.next = p = head;
-    q = p.next;
-    cur = vHead;
-    while (p && q) {
-      cur.next = q;
-      p.next = q.next;
-      q.next = p;
-      cur = p;
-      p = p.next;
-      if (p) q = p.next;
-    }
-    return vHead.next;
+  // if (head && head.next) {
+  //   let vHead, p, q, cur;
+  //   vHead = new ListNode();
+  //   vHead.next = p = head;
+  //   q = p.next;
+  //   cur = vHead;
+  //   while (p && q) {
+  //     cur.next = q;
+  //     p.next = q.next;
+  //     q.next = p;
+  //     cur = p;
+  //     p = p.next;
+  //     if (p) q = p.next;
+  //   }
+  //   return vHead.next;
+  // }
+  // return head;
+
+  if (!head || !head.next) return head;
+  let front,
+    rear,
+    root = new ListNode();
+  root.next = head;
+  front = root;
+  rear = front.next.next;
+
+  while (rear) {
+    const temp = front.next;
+    temp.next = rear.next;
+    front.next = rear;
+    rear.next = temp;
+    front = temp;
+    if (temp.next) rear = temp.next.next;
+    else break;
   }
-  return head;
+
+  return root.next;
 };
 // @lc code=end
