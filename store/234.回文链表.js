@@ -75,18 +75,44 @@ var isPalindrome = function (head) {
   // left = head;
   // return traverse(head);
   // 法三：
-  let left, right, slow;
-  left = right = slow = head;
-  while (right && right.next) {
+  // let left, right, slow;
+  // left = right = slow = head;
+  // while (right && right.next) {
+  //   slow = slow.next;
+  //   right = right.next.next;
+  // }
+  // if (right) slow = slow.next;
+  // right = reverseList(slow);
+  // while (right) {
+  //   if (left.val !== right.val) return false;
+  //   right = right.next;
+  //   left = left.next;
+  // }
+  // return true;
+
+  let slow, fast;
+  slow = fast = head;
+  while (fast.next) {
     slow = slow.next;
-    right = right.next.next;
+    if (fast.next.next) fast = fast.next.next;
+    else fast = fast.next;
   }
-  if (right) slow = slow.next;
-  right = reverseList(slow);
-  while (right) {
-    if (left.val !== right.val) return false;
-    right = right.next;
-    left = left.next;
+  let p = new ListNode();
+  let temp = slow;
+  console.log(slow, fast);
+  while (temp.next) {
+    const q = p.next;
+    p.next = temp.next;
+    temp.next = temp.next.next;
+    p.next = q;
+  }
+  slow.next = null;
+  slow = head;
+  console.log(slow, fast);
+  while (slow && fast) {
+    if (slow.val !== fast.val) return false;
+    slow = slow.next;
+    fast = fast.next;
   }
   return true;
 };
