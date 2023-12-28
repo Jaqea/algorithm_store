@@ -99,16 +99,14 @@ var isPalindrome = function (head) {
   }
   let p = new ListNode();
   let temp = slow;
-  console.log(slow, fast);
-  while (temp.next) {
-    const q = p.next;
-    p.next = temp.next;
-    temp.next = temp.next.next;
-    p.next = q;
+  while (temp) {
+    const q = temp.next;
+    temp.next = p.next;
+    p.next = temp;
+    temp = q;
   }
   slow.next = null;
   slow = head;
-  console.log(slow, fast);
   while (slow && fast) {
     if (slow.val !== fast.val) return false;
     slow = slow.next;
