@@ -43,5 +43,28 @@ var reorderList = function (head) {
   //   count++;
   // }
   // return head;
+
+  if (!head || !head.next) return head;
+
+  let arr = [],
+    p = head,
+    left,
+    right;
+  while (p) {
+    arr.push(p);
+    p = p.next;
+  }
+  left = 0;
+  right = arr.length - 1;
+  head = new ListNode();
+  p = head;
+  while (left <= right) {
+    p.next = arr[left++];
+    p = p.next;
+    p.next = arr[right--];
+    p = p.next;
+  }
+  p.next = null;
+  return head.next;
 };
 // @lc code=end
