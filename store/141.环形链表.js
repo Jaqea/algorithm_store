@@ -28,5 +28,15 @@ var hasCycle = function (head) {
   //   slow = slow.next;
   // }
   // return false;
+
+  if (!head || !head.next) return false;
+  let slow, fast;
+  slow = fast = head;
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+    if (slow === fast) return true;
+  }
+  return false;
 };
 // @lc code=end
