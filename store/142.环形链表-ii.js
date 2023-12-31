@@ -35,5 +35,21 @@ var detectCycle = function (head) {
   //   } else return null;
   // }
   // return null;
+
+  if (!head || !head.next) return null;
+  let slow, fast;
+  slow = fast = head;
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+    if (slow === fast) break;
+  }
+  if (slow !== fast) return null;
+  slow = head;
+  while (slow !== fast) {
+    slow = slow.next;
+    fast = fast.next;
+  }
+  return fast;
 };
 // @lc code=end
