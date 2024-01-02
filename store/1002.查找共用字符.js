@@ -37,17 +37,21 @@ var commonChars = function (words) {
 
   let map = new Map(),
     res = [];
-  for (let str of words.values()) {
+  for (let [index, str] of words.entries()) {
     [].slice.call(str).forEach((item) => {
-      if (!map.has(item)) map.set(item, 1);
-      else map.set(item, map.get(item) + 1);
+      if (!map.has(item)) {
+        const arr = Array(words.length).fill(0);
+        arr[index] = 1;
+        map.set(item, arr);
+      } else {
+        map.get(item)[index]++;
+        map.set(item, map.get(item));
+      }
     });
   }
-  console.log(map, words.length);
   for (let [key, value] of map.entries()) {
-    if (value >= words.length) {
-      for (let i = 0; i < Math.floor(value / words.length); i++) res.push(key);
-    }
+    if (Math.min(...value) >= 1)
+      for (let i = 0; i < Math.min(...value); i++) res.push(key);
   }
   return res;
 };
