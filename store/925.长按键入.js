@@ -11,23 +11,38 @@
  * @return {boolean}
  */
 var isLongPressedName = function (name, typed) {
+  // let i, j;
+  // i = j = 0;
+  // while (i < name.length && j < typed.length) {
+  //   if (name[i] === typed[j]) {
+  //     i++;
+  //     j++;
+  //   } else {
+  //     if (j > 0 && typed[j] === typed[j - 1]) j++;
+  //     else return false;
+  //   }
+  // }
+  // if (i < name.length) return false;
+
+  // while (j < typed.length) {
+  //   if (typed[j] === typed[j - 1]) j++;
+  //   else return false;
+  // }
+  // return true;
+
   let i, j;
   i = j = 0;
-  while (i < name.length && j < typed.length) {
-    if (name[i] === typed[j]) {
+  while (i < name.length) {
+    while (name[i] === typed[j] && i < name.length && j < typed.length) {
       i++;
       j++;
-    } else {
-      if (j > 0 && typed[j] === typed[j - 1]) j++;
-      else return false;
     }
-  }
-  if (i < name.length) return false;
 
-  while (j < typed.length) {
-    if (typed[j] === typed[j - 1]) j++;
-    else return false;
+    while (typed[j] === typed[j - 1] && j < typed.length) j++;
+
+    if (name[i] !== typed[j]) return false;
   }
+
   return true;
 };
 // @lc code=end
