@@ -17,36 +17,57 @@
  * @param {TreeNode} root
  * @return {number}
  */
-let transform = (path) => {
-  let res = 0;
-  path.forEach((item) => {
-    res *= 10;
-    res += item;
-  });
-  return res;
-};
-let sum, nodes;
-let back = (node, path) => {
-  if (!node.left && !node.right) {
-    sum += transform(path);
-    return;
-  }
-  if (node.left) {
-    path.push(node.left.val);
-    back(node.left, path);
-    path.pop();
-  }
-  if (node.right) {
-    path.push(node.right.val);
-    back(node.right, path);
-    path.pop();
-  }
-};
+// let transform = (path) => {
+//   let res = 0;
+//   path.forEach((item) => {
+//     res *= 10;
+//     res += item;
+//   });
+//   return res;
+// };
+// let sum, nodes;
+// let back = (node, path) => {
+//   if (!node.left && !node.right) {
+//     sum += transform(path);
+//     return;
+//   }
+//   if (node.left) {
+//     path.push(node.left.val);
+//     back(node.left, path);
+//     path.pop();
+//   }
+//   if (node.right) {
+//     path.push(node.right.val);
+//     back(node.right, path);
+//     path.pop();
+//   }
+// };
+
 var sumNumbers = function (root) {
-  sum = 0;
-  nodes = [];
-  nodes.push(root.val);
-  back(root, nodes);
-  return sum;
+  // sum = 0;
+  // nodes = [];
+  // nodes.push(root.val);
+  // back(root, nodes);
+  // return sum;
+
+  let paths = [];
+
+  preTraverse(root, 0);
+
+  return paths.reduce((pre, cur) => pre + cur);
+
+  function preTraverse(node, num) {
+    num = transform(num, node.val);
+
+    if (!node.left && !node.right) paths.push(num);
+
+    if (node.left) preTraverse(node.left, num);
+
+    if (node.right) preTraverse(node.right, num);
+  }
+
+  function transform(num, val) {
+    return num * 10 + val;
+  }
 };
 // @lc code=end
