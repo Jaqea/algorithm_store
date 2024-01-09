@@ -34,23 +34,41 @@ var connect = function (root) {
   // traverse(root);
   // return root;
   // 法二：
+  // let queue = [],
+  //   front,
+  //   rear;
+  // front = rear = 0;
+  // queue[rear++] = root;
+  // while (front !== rear) {
+  //   let size = rear - front;
+  //   for (let i = 0; i < size; i++) {
+  //     let node = queue[front++];
+  //     if (queue[front] && i !== size - 1) node.next = queue[front];
+  //     else {
+  //       if (node) node.next = null;
+  //     }
+  //     if (node && node.left) queue[rear++] = node.left;
+  //     if (node && node.right) queue[rear++] = node.right;
+  //   }
+  // }
+  // return root;
+
   let queue = [],
-    front,
-    rear;
-  front = rear = 0;
+    h,
+    front = (rear = 0);
+
   queue[rear++] = root;
+  h = rear;
+
   while (front !== rear) {
-    let size = rear - front;
-    for (let i = 0; i < size; i++) {
-      let node = queue[front++];
-      if (queue[front] && i !== size - 1) node.next = queue[front];
-      else {
-        if (node) node.next = null;
-      }
-      if (node && node.left) queue[rear++] = node.left;
-      if (node && node.right) queue[rear++] = node.right;
-    }
+    const node = queue[front++];
+
+    if (node && node.left) queue[rear++] = node.left;
+    if (node && node.right) queue[rear++] = node.right;
+    if (front !== h) node.next = queue[front];
+    else h = rear;
   }
+
   return root;
 };
 // @lc code=end
