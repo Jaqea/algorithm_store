@@ -53,22 +53,38 @@ var connect = function (root) {
   // }
   // return root;
 
-  let queue = [],
-    h,
-    front = (rear = 0);
+  // 队列
+  // let queue = [],
+  //   h,
+  //   front = (rear = 0);
 
-  queue[rear++] = root;
-  h = rear;
+  // queue[rear++] = root;
+  // h = rear;
 
-  while (front !== rear) {
-    const node = queue[front++];
+  // while (front !== rear) {
+  //   const node = queue[front++];
 
-    if (node && node.left) queue[rear++] = node.left;
-    if (node && node.right) queue[rear++] = node.right;
-    if (front !== h) node.next = queue[front];
-    else h = rear;
+  //   if (node && node.left) queue[rear++] = node.left;
+  //   if (node && node.right) queue[rear++] = node.right;
+  //   if (front !== h) node.next = queue[front];
+  //   else h = rear;
+  // }
+
+  // return root;
+
+  // 递归
+  function traverse(node) {
+    if (node.left) {
+      node.left.next = node.right;
+      if (node.right) {
+        if (node.next) node.right.next = node.next.left;
+        else node.right.next = null;
+      }
+    }
+    if (node.left) traverse(node.left);
+    if (node.right) traverse(node.right);
   }
-
+  if (root) traverse(root);
   return root;
 };
 // @lc code=end
