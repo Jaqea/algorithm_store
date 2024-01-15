@@ -10,17 +10,28 @@
  * @return {number}
  */
 var balancedStringSplit = function (s) {
-  let rNum, lNum, max;
-  rNum = lNum = max = 0;
+  // let rNum, lNum, max;
+  // rNum = lNum = max = 0;
+  // for (let str of s) {
+  //   if (str === "R") rNum++;
+  //   else lNum++;
+  //   if (lNum === rNum) {
+  //     lNum = 0;
+  //     rNum = 0;
+  //     max++;
+  //   }
+  // }
+  // return max;
+
+  let LNum, RNum, max;
+  LNum = RNum = max = 0;
+
   for (let str of s) {
-    if (str === "R") rNum++;
-    else lNum++;
-    if (lNum === rNum) {
-      lNum = 0;
-      rNum = 0;
-      max++;
-    }
+    if (str === "L") LNum++;
+    if (str === "R") RNum++;
+    if (LNum === RNum) max++;
   }
+
   return max;
 };
 // @lc code=end
