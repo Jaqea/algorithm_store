@@ -36,30 +36,26 @@ var predictPartyVictory = function (senate) {
 
   // return R ? "Radiant" : "Dire";
 
-  let map = new Map();
-  map.set("R", 0);
-  map.set("D", 0);
-  for (let str of senate) map.set(str, map.get(str) + 1);
+  let R = (D = true),
+    flag = 0;
   senate = senate.split("");
-  while (map.get("R") !== 0 && map.get("D") !== 0) {
+  while (R && D) {
+    R = false;
+    D = false;
     for (let i = 0; i < senate.length; i++) {
-      let j = i + 1;
       if (senate[i] === "R") {
-        while (senate[j] !== "D" && j < senate.length) j++;
-        if (j < senate.length) {
-          senate[j] = null;
-          if (map.get("D") > 0) map.set("D", map.get("D") - 1);
-        }
-      } else if (senate[i] === "D") {
-        while (senate[j] !== "R" && j < senate.length) j++;
-        if (j < senate.length) {
-          senate[j] = null;
-          if (map.get("R") > 0) map.set("R", map.get("R") - 1);
-        }
+        if (flag < 0) senate[i] = 0;
+        else R = true;
+        flag++;
+      }
+      if (senate[i] === "D") {
+        if (flag > 0) senate[i] = 0;
+        else D = true;
+        flag--;
       }
     }
   }
-  console.log(senate, map);
-  return map.get("R") === 0 ? "Dire" : "Radiant";
+
+  return D ? "Dire" : "Radiant";
 };
 // @lc code=end
