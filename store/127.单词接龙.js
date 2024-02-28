@@ -49,8 +49,17 @@ const bfs = (beginWord, endWord, wordList) => {
 };
 
 var ladderLength = function (beginWord, endWord, wordList) {
-  map = new Map();
-  bfs(beginWord, endWord, wordList);
-  return map.has(endWord) ? map.get(endWord) : 0;
+  // map = new Map();
+  // bfs(beginWord, endWord, wordList);
+  // return map.has(endWord) ? map.get(endWord) : 0;
+
+  const compare = (str1, str2) => {
+    let dif = 0;
+    for (let i = 0; i < str1.length; i++) {
+      if (str1[i] !== str2[i]) dif++;
+    }
+
+    return dif === 1;
+  };
 };
 // @lc code=end
