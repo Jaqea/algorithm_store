@@ -54,7 +54,8 @@ var ladderLength = function (beginWord, endWord, wordList) {
   // return map.has(endWord) ? map.get(endWord) : 0;
 
   const map = new Map();
-  let len = 0;
+  let node,
+    len = 1;
 
   const compare = (str1, str2) => {
     let dif = 0;
@@ -67,7 +68,6 @@ var ladderLength = function (beginWord, endWord, wordList) {
 
   const findPath = (str) => {
     const path = [];
-    if (!map.has(str)) map.set(str, 1);
     wordList.forEach((item) => {
       if (compare(str, item) && !map.has(item)) path.push(item);
     });
@@ -76,22 +76,30 @@ var ladderLength = function (beginWord, endWord, wordList) {
   };
 
   const bfs = (str) => {
-    if (str === endWord) return;
+    const queue = [];
+    let last = (front = rear = 0);
 
-    const path = findPath(str);
-    console.log(str, path);
-
-    if (!path.length) return;
-
-    for (let str of path) {
-      len++;
-      bfs(str);
-      len--;
+    queue[rear++] = str;
+    last = rear;
+    while (front !== rear) {
+      node = queue[front++];
+      if (node === endWord) break;
+      const nodes = findPath(node);
+      if (nodes.length) {
+        for (let n of nodes) {
+          if (!map.has(n)) map.set(n, 1);
+          queue[rear++] = n;
+        }
+      }
+      if (front === last) {
+        len++;
+        last = rear;
+      }
     }
   };
 
   bfs(beginWord);
 
-  return len;
+  return node === endWord ? len : 0;
 };
 // @lc code=end
