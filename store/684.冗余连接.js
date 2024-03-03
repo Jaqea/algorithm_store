@@ -37,15 +37,14 @@ const join = (u, v) => {
 };
 
 var findRedundantConnection = function (edges) {
-  const N = edges.length,
-    M = edges[0].length;
-  father = new Array(N + 1).fill(-1);
-  res = [];
-  init(N);
-  for (let i = 0; i < N; i++) {
-    join(edges[i][0], edges[i][1]);
-  }
-
-  return res;
+  // const N = edges.length,
+  //   M = edges[0].length;
+  // father = new Array(N + 1).fill(-1);
+  // res = [];
+  // init(N);
+  // for (let i = 0; i < N; i++) {
+  //   join(edges[i][0], edges[i][1]);
+  // }
+  // return res;
 };
 // @lc code=end
