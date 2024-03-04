@@ -46,5 +46,36 @@ var findRedundantConnection = function (edges) {
   //   join(edges[i][0], edges[i][1]);
   // }
   // return res;
+
+  const father = new Array(edges.length);
+  let res;
+
+  for (let i = 0; i < father.length; i++) father[i] = i;
+
+  const find = (u) => {
+    return father[u] === u ? u : (father[u] = find(father[u]));
+  };
+
+  const isSame = (u, v) => {
+    u = find(u);
+    v = find(v);
+
+    return u === v;
+  };
+
+  const join = (u, v) => {
+    u = find(u);
+    v = find(v);
+
+    if (u === v) return 1;
+
+    father[v] = u;
+  };
+
+  for (let i = 0; i < edges.length; i++) {
+    if (join(edges[i][0], edges[i][1])) res = i;
+  }
+
+  return edges[res];
 };
 // @lc code=end
