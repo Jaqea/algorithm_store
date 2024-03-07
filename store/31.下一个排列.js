@@ -10,26 +10,31 @@
  * @return {void} Do not return anything, modify nums in-place instead.
  */
 var nextPermutation = function (nums) {
-  let flag = 0,
-    i,
-    j;
+  let i,
+    j,
+    left = 0,
+    right = nums.length - 1;
 
-  loop: for (i = nums.length - 1; i > 0; i--) {
+  for (i = nums.length - 1; i > 0; i--) {
     for (j = i - 1; j > -1; j--) {
       if (nums[i] > nums[j]) {
-        let temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
-        flag = 1;
-        break loop;
+        if (i - j < right - left) {
+          right = i;
+          left = j;
+        }
       }
     }
   }
 
-  if (flag) {
-    j++;
-    for (i = j; i < nums.length; i++) {
-      for (j = i; j < nums.length - i - 1; j++) {
+  if (right - left !== nums.length - 1) {
+    const temp = nums[left];
+    nums[left] = nums[right];
+    nums[right] = temp;
+
+    left++;
+    console.log(nums, left);
+    for (i = left; i < nums.length - 1; i++) {
+      for (j = left; j < nums.length + left - i - 1; j++) {
         if (nums[j] > nums[j + 1]) {
           const temp = nums[j];
           nums[j] = nums[j + 1];
