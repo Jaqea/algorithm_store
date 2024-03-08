@@ -10,39 +10,29 @@
  * @return {void} Do not return anything, modify nums in-place instead.
  */
 var nextPermutation = function (nums) {
-  let i,
-    j,
-    left = 0,
-    right = nums.length - 1;
+  let i, j;
 
-  for (i = nums.length - 1; i > 0; i--) {
-    for (j = i - 1; j > -1; j--) {
-      if (nums[i] > nums[j]) {
-        if (i - j < right - left) {
-          right = i;
-          left = j;
-        }
+  loop: for (i = nums.length - 1; i > -1; i--) {
+    for (j = nums.length - 1; j > i; j--) {
+      if (nums[j] > nums[i]) {
+        const temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+        break loop;
       }
     }
   }
 
-  if (right - left !== nums.length - 1) {
-    const temp = nums[left];
-    nums[left] = nums[right];
-    nums[right] = temp;
-
-    left++;
-    console.log(nums, left);
-    for (i = left; i < nums.length - 1; i++) {
-      for (j = left; j < nums.length + left - i - 1; j++) {
-        if (nums[j] > nums[j + 1]) {
-          const temp = nums[j];
-          nums[j] = nums[j + 1];
-          nums[j + 1] = temp;
-        }
+  const start = ++i;
+  for (; i < nums.length - 1; i++) {
+    for (j = start; j < nums.length + start - i - 1; j++) {
+      if (nums[j] > nums[j + 1]) {
+        const temp = nums[j];
+        nums[j] = nums[j + 1];
+        nums[j + 1] = temp;
       }
     }
-  } else nums.reverse();
+  }
 
   return nums;
 };
