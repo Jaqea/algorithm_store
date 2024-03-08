@@ -57,29 +57,55 @@ const getRemoveEdge = (edges) => {
 };
 
 var findRedundantDirectedConnection = function (edges) {
-  M = edges.length;
-  father = new Array(M + 1).fill(-1);
-  res = [];
-  const inDegree = new Array(M + 1).fill(0);
+  // M = edges.length;
+  // father = new Array(M + 1).fill(-1);
+  // res = [];
+  // const inDegree = new Array(M + 1).fill(0);
+  // edges.forEach((item) => {
+  //   inDegree[item[1]]++;
+  // });
+
+  // inDegree.forEach((item, index) => {
+  //   if (item === 2) {
+  //     for (let i = M - 1; i >= 0; i--) {
+  //       if (edges[i][1] === index) {
+  //         res.push(i);
+  //       }
+  //     }
+  //   }
+  // });
+
+  // if (res.length > 1) {
+  //   if (isTreeAfterRemoveEdge(edges, res[0])) return edges[res[0]];
+  //   else return edges[res[1]];
+  // }
+
+  // return getRemoveEdge(edges);
+
+  const father = new Array(edges.length);
+  let res;
+
+  const find = (u) => (father[u] === u ? u : find(father[u]));
+
+  const isSame = (u, v) => {
+    u = find(u);
+    v = find(v);
+
+    return u === v;
+  };
+
+  const join = (u, v) => {
+    u = find(u);
+    v = find(v);
+    if (u === v) return 1;
+    father[v] = u;
+  };
+
+  for (let i = 0; i < father.length; i++) father[i] = i;
   edges.forEach((item) => {
-    inDegree[item[1]]++;
+    if (join(item[1], item[0])) res = item;
   });
-
-  inDegree.forEach((item, index) => {
-    if (item === 2) {
-      for (let i = M - 1; i >= 0; i--) {
-        if (edges[i][1] === index) {
-          res.push(i);
-        }
-      }
-    }
-  });
-
-  if (res.length > 1) {
-    if (isTreeAfterRemoveEdge(edges, res[0])) return edges[res[0]];
-    else return edges[res[1]];
-  }
-
-  return getRemoveEdge(edges);
+  console.log(father);
+  return res;
 };
 // @lc code=end
