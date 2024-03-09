@@ -105,7 +105,7 @@ var findRedundantDirectedConnection = function (edges) {
   edges.forEach((item) => {
     if (join(item[1], item[0])) res = item;
   });
-  console.log(father);
+
   return res;
 };
 // @lc code=end
