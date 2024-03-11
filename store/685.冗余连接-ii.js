@@ -83,7 +83,8 @@ var findRedundantDirectedConnection = function (edges) {
   // return getRemoveEdge(edges);
 
   const father = new Array(edges.length);
-  let res;
+  const map = new Map();
+  let res, node;
 
   const find = (u) => (father[u] === u ? u : find(father[u]));
 
@@ -101,10 +102,34 @@ var findRedundantDirectedConnection = function (edges) {
     father[v] = u;
   };
 
-  for (let i = 0; i < father.length; i++) father[i] = i;
-  edges.forEach((item) => {
-    if (join(item[1], item[0])) res = item;
-  });
+  for (let i = 0; i < edges.length; i++) {
+    if (map.has(edges[i][1] - 1))
+      map.set(edges[i][1] - 1, map.get(edges[i][1] - 1) + 1);
+    else map.set(edges[i][1] - 1, 1);
+  }
+
+  for (let [key, value] of map.entries()) {
+    if (value === 2) {
+      node = key;
+      break;
+    }
+  }
+
+  if (node !== undefined) {
+    for (let i = 0; i < edges.length; i++) {
+      if (edges[i][1] - 1 === node) {
+        const newEdges = [...edges.slice(0, i), ...edges.slice(i + 1)];
+
+        for (let i = 0; i < father.length; i++) father[i] = i;
+        for (let item of newEdges.values()) {
+          if (!join(item[0], item[1])) res = edges[i];
+        }
+      }
+    }
+  } else
+    edges.forEach((item) => {
+      if (join(item[0], item[1])) res = item;
+    });
 
   return res;
 };
