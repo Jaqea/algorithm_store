@@ -123,5 +123,19 @@ var islandPerimeter = function (grid) {
   // return s;
 
   let s = 0;
+
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < grid[0].length; j++) {
+      if (grid[i][j]) {
+        s += 4;
+        if (i < grid.length - 1 && grid[i + 1][j]) s -= 1;
+        if (j < grid[0].length - 1 && grid[i][j + 1]) s -= 1;
+        if (i > 0 && grid[i - 1][j]) s -= 1;
+        if (j > 0 && grid[i][j - 1]) s -= 1;
+      }
+    }
+  }
+
+  return s;
 };
 // @lc code=end
