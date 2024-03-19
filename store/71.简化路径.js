@@ -12,41 +12,13 @@
 var simplifyPath = function (path) {
   const stack = [];
   let count = (top = 0);
-  stack[top++] = path[0];
-  for (let i = 1; i < path.length; i++) {
-    console.log(stack.slice(0, top), top);
-    switch (path[i]) {
-      case ".":
-        stack[top++] = ".";
-        count++;
-        continue;
-      case "/":
-        if (count === 1) top--;
-        else if (count === 2) {
-          if (top === 3) top -= 2;
-          else if (top === 4) top -= 3;
-          else top -= 4;
-        }
-        count = 0;
+  path = path.split("/");
 
-        if (stack[top - 1] === "/" || i === path.length - 1) continue;
-        else stack[top++] = path[i];
-        break;
-      default:
-        if (count === 1) top--;
-        else if (count === 2) {
-          if (top === 3) top -= 2;
-          else if (top === 4) top -= 3;
-          else top -= 4;
-        }
-        count = 0;
-        stack[top++] = path[i];
-        break;
-    }
+  for (let i = 0; i < path.length; i++) {
+    if (path[i] && path[i] !== "." && path[i] !== "..") stack[top++] = path[i];
+    if (path[i] === ".." && top > 0) top--;
   }
 
-  if (top > 1 && stack[top - 1] === "/") top--;
-
-  return stack.join("").slice(0, top);
+  return `/${stack.slice(0, top).join("/")}`;
 };
 // @lc code=end
