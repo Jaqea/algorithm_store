@@ -9,7 +9,7 @@
 var MinStack = function () {
   this.stack = [];
   this.minStack = [];
-  this.top = 0;
+  this.normalTop = 0;
   this.minTop = 0;
 };
 
@@ -17,22 +17,41 @@ var MinStack = function () {
  * @param {number} val
  * @return {void}
  */
-MinStack.prototype.push = function (val) {};
+MinStack.prototype.push = function (val) {
+  this.stack[this.normalTop++] = val;
+  if (
+    this.minStack[this.minTop - 1] !== undefined &&
+    this.minStack[this.minTop - 1] > val
+  )
+    this.minStack[this.minTop++] = val;
+  else if (this.minStack[this.minTop - 1] === undefined)
+    this.minStack[this.minTop++] = val;
+};
 
 /**
  * @return {void}
  */
-MinStack.prototype.pop = function () {};
+MinStack.prototype.pop = function () {
+  const item = this.stack[--this.normalTop];
+  if (this.minStack[this.minTop - 1] === item) {
+    if (!this.stack.slice(0, this.normalTop).some((v) => v === item))
+      this.minTop--;
+  }
+};
 
 /**
  * @return {number}
  */
-MinStack.prototype.top = function () {};
+MinStack.prototype.top = function () {
+  return this.stack[this.normalTop - 1];
+};
 
 /**
  * @return {number}
  */
-MinStack.prototype.getMin = function () {};
+MinStack.prototype.getMin = function () {
+  return this.minStack[this.minTop - 1];
+};
 
 /**
  * Your MinStack object will be instantiated and called as such:
