@@ -9,5 +9,19 @@
  * @param {string} s
  * @return {number}
  */
-var maxDepth = function (s) {};
+var maxDepth = function (s) {
+  s = s.split("+");
+
+  const dps = new Array(s.length).fill(0);
+
+  for (let str of s) {
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] === "(") {
+        dps[i]++;
+      }
+    }
+  }
+
+  return Math.max(...dps);
+};
 // @lc code=end
