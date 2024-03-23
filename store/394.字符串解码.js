@@ -10,16 +10,20 @@
  * @return {string}
  */
 var decodeString = function (s) {
-  let temp = [],
-    top = 0;
-  s = s.split("]").filter((item) => item);
-  s.forEach((item) => {
-    if (item[0] - "0") temp[top++] = item;
-    else {
-      temp[top++] = item.slice(0, item.indexOf("[") - 1);
-      temp[top++] = item.slice(item.indexOf("[") - 1);
-    }
-  });
+  const strStack = [],
+    numStack = [];
+  let top1 = (top2 = 0),
+    k = (value = res = "");
+
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] - "0") k += s[i];
+    else if (s[i] === "[") {
+      numStack[top2++] = k - "0";
+      strStack[top1++] = value;
+      k = value = "";
+    } else if (s[i] === "]") {
+    } else value += s[i];
+  }
 
   s = temp;
   temp = null;
