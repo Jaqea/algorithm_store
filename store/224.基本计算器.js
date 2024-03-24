@@ -9,8 +9,16 @@
  * @param {string} s
  * @return {number}
  */
-var calculate = function(s) {
+var calculate = function (s) {
+  const stack = [];
+  let top = 0;
 
+  for (let str of s) {
+    if (str - "0") stack[top++] = str - "0";
+    else if (str === "+") {
+      const temp = stack[--top];
+      stack[top++] = temp;
+    }
+  }
 };
 // @lc code=end
-
