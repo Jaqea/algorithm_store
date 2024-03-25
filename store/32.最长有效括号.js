@@ -11,15 +11,20 @@
  */
 var longestValidParentheses = function (s) {
   const stack = [];
-  let res = (top = 0);
+  let res = (start = top = 0);
 
-  for (let str of s) {
-    if (top && str === ")") {
-      if (stack[top - 1] === "(") {
-        res += 2;
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === "(") {
+      if (top > 0 && stack[top - 1] === "(") start = i;
+      stack[top++] = s[i];
+    } else {
+      if (top > 0) {
+        res = Math.max(res, i - start + 1);
         top--;
+      } else {
+        start = i + 1;
       }
-    } else stack[top++] = str;
+    }
     console.log(stack.slice(0, top));
   }
 
