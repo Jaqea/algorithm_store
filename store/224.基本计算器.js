@@ -14,12 +14,25 @@ var calculate = function (s) {
     stack = [];
   let top1 = (top2 = 0);
 
+  const handleType = (types) => {
+    let nums = 0;
+    types.forEach((element) => {
+      if (element === "-") nums++;
+    });
+
+    return nums % 2 ? "-" : "+";
+  };
+
   for (let str of s) {
     if (str >= "0" && str <= "9") {
       const right = str - "0";
       if (top1 > 0 && top2 > 0) {
         const left = numstack[--top1];
-        const type = stack[--top2];
+        const types = [];
+        while (top2) types.push(stack[--top2]);
+
+        const type = handleType(types);
+
         if (type === "+") numstack[top1++] = left + right;
         else numstack[top1++] = left - right;
       } else numstack[top1++] = right;
