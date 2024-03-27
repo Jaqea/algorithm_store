@@ -10,35 +10,34 @@
  * @return {number}
  */
 var calculate = function (s) {
-  const numstack = [],
-    stack = [];
-  let top1 = (top2 = 0);
+  const stack = [];
+  let top = (res = 0),
+    sign = 1;
 
-  const handleType = (types) => {
-    let nums = 0;
-    types.forEach((element) => {
-      if (element === "-") nums++;
-    });
-
-    return nums % 2 ? "-" : "+";
-  };
-
-  for (let str of s) {
-    if (str >= "0" && str <= "9") {
-      const right = str - "0";
-      if (top1 > 0 && top2 > 0) {
-        const left = numstack[--top1];
-        const types = [];
-        while (top2) types.push(stack[--top2]);
-
-        const type = handleType(types);
-
-        if (type === "+") numstack[top1++] = left + right;
-        else numstack[top1++] = left - right;
-      } else numstack[top1++] = right;
-    } else if (str === "+" || str === "-") stack[top2++] = str;
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === "-") sign *= -1;
+    else if (s[i] === "+") sign *= 1;
+    else if (s[i] >= "0" && s[i] <= "9") {
+      let num = s[i] - "0";
+      while (i < s.length - 1 && s[i + 1] >= "0" && s[i + 1] <= "9") {
+        num = num * 10 + (s[i + 1] - "0");
+        i++;
+      }
+      res += num * sign;
+      sign = 1;
+    } else if (s[i] === "(") {
+      stack[top++] = res;
+      stack[top++] = sign;
+      sign = 1;
+      res = 0;
+    } else if (s[i] === ")") {
+      const numSign = stack[--top];
+      const numRes = stack[--top];
+      res = numRes + numSign * res;
+      sign = 1;
+    }
   }
 
-  return numstack.join("") - "0";
+  return res;
 };
 // @lc code=end
