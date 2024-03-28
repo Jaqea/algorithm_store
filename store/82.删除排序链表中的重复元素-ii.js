@@ -18,22 +18,29 @@
  */
 var deleteDuplicates = function (head) {
   if (!head || !head.next) return head;
-  let root, left, mid, right;
+  let root,
+    left,
+    right,
+    last,
+    isMove = false;
   root = left = new ListNode();
-  mid = head;
-  right = mid.next;
-  left.next = mid;
-  while (mid && right) {
-    if (right.val === mid.val) {
-      const temp = right.next;
-      left.next = temp;
-      mid = temp;
-      if (mid.next) right = mid;
-    } else {
-      left = left.next;
-      mid = mid.next;
+  left.next = head;
+  last = head;
+  right = last.next;
+
+  while (right) {
+    while (right && last.val === right.val) {
+      isMove = true;
       right = right.next;
     }
+
+    if (isMove) {
+      left.next = right;
+      isMove = false;
+    } else left = last;
+
+    last = right;
+    if (right) right = right.next;
   }
 
   return root.next;
