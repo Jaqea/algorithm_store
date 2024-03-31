@@ -22,7 +22,8 @@ var addTwoNumbers = function (l1, l2) {
     q,
     sign = 0,
     len1 = (len2 = 1),
-    num;
+    num,
+    last;
   p = l1;
   q = l2;
 
@@ -45,11 +46,13 @@ var addTwoNumbers = function (l1, l2) {
       if (num > 9) {
         sign = 1;
         num %= 10;
-      }
+      } else sign = 0;
       p.val = num;
+      if (!p.next) last = p;
       p = p.next;
       if (q) q = q.next;
     }
+    if (sign) last.next = new ListNode(1);
   } else {
     while (q) {
       if (p) num = p.val + q.val + sign;
@@ -57,11 +60,13 @@ var addTwoNumbers = function (l1, l2) {
       if (num > 9) {
         sign = 1;
         num %= 10;
-      }
+      } else sign = 0;
       q.val = num;
+      if (!q.next) last = q;
       q = q.next;
       if (p) p = p.next;
     }
+    if (sign) last.next = new ListNode(1);
   }
 
   return len1 > len2 ? l1 : l2;
