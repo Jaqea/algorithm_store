@@ -14,9 +14,15 @@ var nthUglyNumber = function (n) {
 
   while (len < n) {
     num++;
-    for (let i = 1; i < num; i++) {
-      if (num % i === 0 && i === (2 || 3 || 5)) len++;
+    let flag = 1;
+    for (let i = 1; i <= num; i++) {
+      if (num % i === 0) {
+        console.log(i);
+        // flag = 0;
+        // break;
+      }
     }
+    if (flag) len++;
   }
 
   return num;
