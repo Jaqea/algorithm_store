@@ -10,10 +10,9 @@
  */
 var MyCircularDeque = function (k) {
   this.queue = [];
-  this.len = k;
-  this.front = -1;
-  this.rear = -1;
-  this.k = k;
+  this.front = 0;
+  this.rear = 0;
+  this.len = k + 1;
 };
 
 /**
@@ -21,10 +20,9 @@ var MyCircularDeque = function (k) {
  * @return {boolean}
  */
 MyCircularDeque.prototype.insertFront = function (value) {
-  if (this.len > 0) {
-    this.front = this.front % this.len;
-    this.queue[++this.front] = value;
-    this.len--;
+  if (!this.isFull()) {
+    this.front = (this.front - 1 + this.len) % this.len;
+    this.queue[this.front] = value;
     return true;
   }
 
@@ -36,10 +34,9 @@ MyCircularDeque.prototype.insertFront = function (value) {
  * @return {boolean}
  */
 MyCircularDeque.prototype.insertLast = function (value) {
-  if (this.len > 0) {
-    this.rear = this.rear % this.len;
-    this.queue[++this.rear] = value;
-    this.len--;
+  if (!this.isFull()) {
+    this.queue[this.rear] = value;
+    this.rear = (this.rear + 1) % this.len;
     return true;
   }
 
@@ -50,10 +47,8 @@ MyCircularDeque.prototype.insertLast = function (value) {
  * @return {boolean}
  */
 MyCircularDeque.prototype.deleteFront = function () {
-  this.rear = this.rear % this.len;
-  if (this.queue[this.rear]) {
-    this.queue[this.rear--] = null;
-    this.len++;
+  if (!this.isEmpty()) {
+    this.front = (this.front + 1) % this.len;
     return true;
   }
 
@@ -64,10 +59,8 @@ MyCircularDeque.prototype.deleteFront = function () {
  * @return {boolean}
  */
 MyCircularDeque.prototype.deleteLast = function () {
-  this.front = this.front % this.len;
-  if (this.queue[this.front]) {
-    this.queue[this.front--] = null;
-    this.len++;
+  if (!this.isEmpty()) {
+    this.rear = (this.rear - 1 + this.len) % this.len;
     return true;
   }
 
@@ -78,33 +71,32 @@ MyCircularDeque.prototype.deleteLast = function () {
  * @return {number}
  */
 MyCircularDeque.prototype.getFront = function () {
-  this.front = this.front % this.len;
-  if (this.queue[this.front]) return this.queue[this.front];
+  if (!this.isEmpty()) return this.queue[this.front];
 
-  return false;
+  return -1;
 };
 
 /**
  * @return {number}
  */
 MyCircularDeque.prototype.getRear = function () {
-  if (this.queue[this.rear]) return this.queue[this.rear];
+  if (!this.isEmpty()) return this.queue[(this.rear - 1 + this.len) % this.len];
 
-  return false;
+  return -1;
 };
 
 /**
  * @return {boolean}
  */
 MyCircularDeque.prototype.isEmpty = function () {
-  return this.len === this.k ? true : false;
+  return this.front === this.rear;
 };
 
 /**
  * @return {boolean}
  */
 MyCircularDeque.prototype.isFull = function () {
-  return this.len === 0 ? true : false;
+  return (this.rear + 1) % this.len === this.front;
 };
 
 /**
