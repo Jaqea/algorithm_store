@@ -10,21 +10,24 @@
  * @return {number}
  */
 var nthUglyNumber = function (n) {
-  let len = (num = 1);
+  const queue = [],
+    arr = [2, 3, 5];
+  let len = (front = rear = 0);
+  queue[rear++] = 1;
+  len++;
 
-  while (len < n) {
-    num++;
-    let flag = 1;
-    for (let i = 1; i <= num; i++) {
-      if (num % i === 0) {
-        console.log(i);
-        // flag = 0;
-        // break;
+  while (len !== n) {
+    const ugly = queue[front++];
+    for (let num of arr) {
+      const temp = ugly * num;
+      if (!queue.slice(front, rear).includes(temp)) {
+        queue[rear++] = temp;
+        console.log(temp);
+        len++;
       }
     }
-    if (flag) len++;
   }
 
-  return num;
+  return len;
 };
 // @lc code=end
