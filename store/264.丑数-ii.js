@@ -12,22 +12,20 @@
 var nthUglyNumber = function (n) {
   const queue = [],
     arr = [2, 3, 5];
-  let len = (front = rear = 0);
+  let front = (rear = 0);
   queue[rear++] = 1;
-  len++;
 
-  while (len !== n) {
+  for (let i = 0; i < n; i++) {
     const ugly = queue[front++];
     for (let num of arr) {
       const temp = ugly * num;
-      if (!queue.slice(front, rear).includes(temp)) {
+      if (!queue.includes(temp)) {
         queue[rear++] = temp;
-        console.log(temp);
-        len++;
+        queue.sort((a, b) => a - b);
       }
     }
   }
 
-  return len;
+  return queue[n - 1];
 };
 // @lc code=end
