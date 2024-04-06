@@ -14,15 +14,26 @@
 var kSmallestPairs = function (nums1, nums2, k) {
   if (k === 1) return [nums1[0], nums2[0]];
 
-  const res = [];
+  const res = [],
+    queue = [];
 
   for (let i = 0; i < nums1.length; i++) {
-    for (let j = 0; j < nums2.length; j++) {
-      res.push([nums1[i], nums2[j]]);
-      res.sort((a, b) => a[0] + a[1] - (b[0] + b[1]));
+    queue.push([i, 0]);
+  }
+
+  while (k && queue.length) {
+    const [x, y] = queue.shift();
+    res.push([nums1[x], nums2[y]]);
+    k--;
+
+    if (y + 1 < nums2.length) {
+      queue.push([x, y + 1]);
+      queue.sort(
+        (a, b) => nums1[a[0]] + nums2[a[1]] - (nums1[b[0]] + nums2[b[1]])
+      );
     }
   }
 
-  return res.slice(0, k);
+  return res;
 };
 // @lc code=end
