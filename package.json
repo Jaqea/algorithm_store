@@ -1,5 +1,9 @@
 {
-	"dependencies": {
-		"algorithm_store": "link:"
-	}
+  "name": "algorithm_store",
+  "version": "1.0.0",
+  "description": "An algorithm store",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
