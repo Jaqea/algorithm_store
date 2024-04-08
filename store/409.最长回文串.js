@@ -11,7 +11,7 @@
  */
 var longestPalindrome = function (s) {
   const map = new Map();
-  let res = (odd = 0);
+  let res = 0;
 
   for (let str of s) {
     if (!map.has(str)) {
@@ -21,11 +21,11 @@ var longestPalindrome = function (s) {
 
   for (let value of map.values()) {
     if (value % 2 === 0) res += value;
-    else odd = odd > value ? odd : value;
+    else {
+      res += value - 1;
+    }
   }
 
-  // if (odd) res += odd;
-
-  return res;
+  return res % 2 === 0 && res < s.length ? res + 1 : res;
 };
 // @lc code=end
