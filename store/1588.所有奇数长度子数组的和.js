@@ -13,18 +13,19 @@ var sumOddLengthSubarrays = function (arr) {
   let len = 1,
     res = (left = right = 0);
 
-  while (len < arr.length) {
+  while (len <= arr.length) {
     for (; right < arr.length; left++, right++) {
       let sum = 0;
+
       for (let i = left; i <= right; i++) sum += arr[i];
       res += sum;
       sum = 0;
     }
     len += 2;
     left = 0;
-    right = left + len;
+    right = left + len - 1;
   }
 
-  console.log(res);
+  return res;
 };
 // @lc code=end
