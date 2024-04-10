@@ -11,20 +11,15 @@
  * @return {number}
  */
 var numberOfSubarrays = function (nums, k) {
-  let res = (left = 0),
-    len = k,
-    right = left + len - 1;
+  let res = (pre = 0);
+  const map = new Map();
+  map.set(pre, 1);
 
-  while (len <= nums.length) {
-    for (; right < nums.length; left++, right++) {
-      let sum = 0;
-      for (let i = left; i <= right; i++) if (nums[i] % 2) sum++;
-      if (sum === k) res++;
-    }
-
-    len++;
-    left = 0;
-    right = left + len - 1;
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] % 2) pre++;
+    if (map.has(pre - k)) res += map.get(pre - k);
+    if (!map.has(pre)) map.set(pre, 1);
+    else map.set(pre, map.get(pre) + 1);
   }
 
   return res;
