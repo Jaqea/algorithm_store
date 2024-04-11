@@ -39,10 +39,9 @@ var subarraySum = function (nums, k) {
   map.set(0, 1);
 
   for (let i = 0; i < pres.length; i++) {
+    if (map.has(pres[i] - k)) res += map.get(pres[i] - k);
     if (!map.has(pres[i])) map.set(pres[i], 1);
     else map.set(pres[i], map.get(pres[i]) + 1);
-
-    if (k && map.has(pres[i] - k)) res += map.get(pres[i] - k);
   }
 
   return res;
