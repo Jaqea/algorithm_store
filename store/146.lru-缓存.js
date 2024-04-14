@@ -10,8 +10,9 @@
  */
 var LRUCache = function (capacity) {
   this.vMap = new Map();
-  this.tMap = new Map();
-  this.time = 0;
+  this.queue = [];
+  this.front = 0;
+  this.rear = 0;
   this.capacity = capacity;
 };
 
@@ -32,8 +33,13 @@ LRUCache.prototype.get = function (key) {
 LRUCache.prototype.put = function (key, value) {
   if (this.capacity && !this.vMap.has(key)) {
     this.vMap.set(key, value);
-    this.tMap.set(key, ++this.time);
+    this.queue[this.rear++] = key;
+    --this.capacity;
   } else if (!this.capacity) {
+    const k = this.queue[this.front++];
+    this.vMap.set(k, null);
+    this.vMap.set(key, value);
+    this.queue[this.rear++] = key;
   }
 };
 
