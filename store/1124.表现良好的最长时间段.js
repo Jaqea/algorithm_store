@@ -9,8 +9,5 @@
  * @param {number[]} hours
  * @return {number}
  */
-var longestWPI = function(hours) {
-
-};
+var longestWPI = function (hours) {};
 // @lc code=end
-

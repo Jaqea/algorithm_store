@@ -8,12 +8,16 @@
 /**
  * @param {number} capacity
  */
+function ListNode(val) {
+  this.val = val || "";
+  this.next = null;
+  this.front = null;
+}
 var LRUCache = function (capacity) {
   this.vMap = new Map();
-  this.queue = [];
-  this.front = 0;
-  this.rear = 0;
   this.capacity = capacity;
+  this.head = new ListNode();
+  this.rear = this.head;
 };
 
 /**
@@ -21,8 +25,13 @@ var LRUCache = function (capacity) {
  * @return {number}
  */
 LRUCache.prototype.get = function (key) {
-  if (this.vMap.has(key)) return this.vMap.get(key);
-  else return -1;
+  if (this.vMap.has(key)) {
+    const node = this.vMap.get(key);
+    node.next = this.head.next;
+    node.front = this.head;
+    this.head.next = node;
+    return node.val;
+  } else return -1;
 };
 
 /**
@@ -32,14 +41,22 @@ LRUCache.prototype.get = function (key) {
  */
 LRUCache.prototype.put = function (key, value) {
   if (this.capacity && !this.vMap.has(key)) {
-    this.vMap.set(key, value);
-    this.queue[this.rear++] = key;
+    const node = new ListNode(value);
+    node.next = this.head.next;
+    node.front = this.head;
+    this.head.next = node;
+    this.rear = this.rear.next;
+    this.vMap.set(key, node);
     --this.capacity;
-  } else if (!this.capacity) {
-    const k = this.queue[this.front++];
-    this.vMap.set(k, null);
-    this.vMap.set(key, value);
-    this.queue[this.rear++] = key;
+  } else if (!this.capacity && !this.vMap.has(key)) {
+    this.rear = this.rear.front;
+    this.rear.next = null;
+    const node = new ListNode(value);
+    node.next = this.head.next;
+    node.front = this.head;
+    this.head.next = node;
+
+    this.vMap.set(key, [value, this.rear]);
   }
 };
 
