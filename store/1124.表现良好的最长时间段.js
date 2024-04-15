@@ -9,5 +9,11 @@
  * @param {number[]} hours
  * @return {number}
  */
-var longestWPI = function (hours) {};
+var longestWPI = function (hours) {
+  let max = (pre = 0);
+  for (let i = 0; i < hours.length; i++) {
+    if (hours[i] > 8) pre += 1;
+    else pre -= 1;
+  }
+};
 // @lc code=end
