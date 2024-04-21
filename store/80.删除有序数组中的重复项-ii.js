@@ -10,20 +10,22 @@
  * @return {number}
  */
 var removeDuplicates = function (nums) {
-  let slow = 0,
-    fast = 1,
-    count;
+  const map = new Map();
+  let slow = (fast = 0);
 
   while (fast < nums.length) {
-    count = 1;
-    while (nums[fast] === nums[slow]) {
-      count++;
-      if (count > 2) slow = fast - 1;
-      fast++;
+    if (!map.has(nums[fast])) map.set(nums[fast], 1);
+    else map.set(nums[fast], map.get(nums[fast]) + 1);
+
+    if (map.get(nums[fast]) > 2) {
+      while (nums[slow] === nums[fast]) fast++;
+      if (fast === nums.length) {
+        break;
+      }
     }
     nums[slow++] = nums[fast++];
   }
 
-  return slow + 1;
+  return slow;
 };
 // @lc code=end
