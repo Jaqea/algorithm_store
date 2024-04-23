@@ -16,11 +16,10 @@ var isPalindrome = function (s) {
     return (str >= "a" && str <= "z") || (str >= "0" && str <= "9");
   };
 
-  for (let left = 0, right = s.length - 1; left <= right; left++, right--) {
-    while (!isStrNum(s[left])) left++;
-    while (!isStrNum(s[right])) right--;
+  for (let left = 0, right = s.length - 1; left < right; left++, right--) {
+    while (!isStrNum(s[left]) && left < right) left++;
+    while (!isStrNum(s[right]) && left < right) right--;
 
-    console.log(left, right);
     if (s[left] !== s[right]) return false;
   }
 
