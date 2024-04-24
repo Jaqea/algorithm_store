@@ -11,23 +11,20 @@
  * @return {string}
  */
 var removeKdigits = function (num, k) {
-  if (num.length === 1 && k === 1) return "0";
-
-  let count = k,
-    index = 0,
+  let index = 0,
     top = 0;
   const stack = [];
 
   for (let i = 0; i < num.length; i++) {
-    while (count && top && stack[top - 1] > num[i]) {
+    while (k && top && stack[top - 1] > num[i]) {
       top--;
-      count--;
+      k--;
     }
     stack[top++] = num[i];
   }
 
   while (stack[index] === "0") index++;
 
-  return index === top ? "0" : stack.slice(index, top).join("");
+  return index < top - k ? stack.slice(index, top - k).join("") : "0";
 };
 // @lc code=end
