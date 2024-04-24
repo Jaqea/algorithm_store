@@ -11,38 +11,21 @@
  * @return {string}
  */
 var removeKdigits = function (num, k) {
-  let min = 9,
-    count = k,
-    i,
-    arr = num.split("");
-  for (i = 0; i < arr.length; i++) min = min < arr[i] ? min : arr[i] - "0";
+  let count = k,
+    index = 0,
+    top = 0;
+  const stack = [];
 
-  for (i = 0; i < arr.length; i++) {
-    if (arr[i] > min) {
+  for (let i = 0; i < num.length; i++) {
+    if (count && top && stack[top - 1] > num[i]) {
+      top--;
       count--;
-      arr[i] = -1;
     }
-    if (!count) break;
+    stack[top++] = num[i];
   }
 
-  if (count) {
-    for (i = 0; i < arr.length; i++) {
-      if (arr[i] >= min) {
-        count--;
-        arr[i] = -1;
-      }
-      if (!count) break;
-    }
-  }
+  while (stack[index] === "0") index++;
 
-  i = 0;
-  while ((arr[i] === "0" || arr[i] === -1) && i < arr.length) {
-    arr[i] = -1;
-    i++;
-  }
-
-  arr = arr.filter((item) => item !== -1);
-
-  return arr.length ? arr.join("") : "0";
+  return index === top ? "0" : stack.slice(index, top).join("");
 };
 // @lc code=end
