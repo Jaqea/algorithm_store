@@ -11,22 +11,16 @@
  * @return {number}
  */
 var myPow = function (x, n) {
-  if (x === 1) return 1;
+  if (x === 1 || n === 0) return 1;
 
-  let res = 1;
+  function computePow(x, n) {
+    if (n === 0) return 1;
 
-  if (n > 0) {
-    for (let i = 0; i < n; i++) {
-      res *= x;
-    }
-  } else if (n === 0) {
-    return 1;
-  } else {
-    for (let i = 0; i < -n; i++) {
-      res *= 1 / x;
-    }
+    const y = computePow(x, Math.floor(n / 2));
+
+    return n % 2 ? y * y * x : y * y;
   }
 
-  return res;
+  return n > 0 ? computePow(x, n) : computePow(1 / x, -n);
 };
 // @lc code=end
