@@ -11,34 +11,25 @@
  * @return {string}
  */
 var multiply = function (num1, num2) {
-  let sum,
-    carry,
-    str,
-    res = 0;
+  if (num1 === "0" || num2 === "0") return "0";
 
-  for (let j = num2.length - 1; j >= 0; j--) {
-    carry = 0;
-    str = "";
-    for (let i = num1.length - 1; i >= 0; i--) {
-      sum = carry;
-      sum += parseInt(num2[j]) * parseInt(num1[i]);
-      str += sum % 10;
-      carry = Math.floor(sum / 10);
+  let m = num1.length,
+    n = num2.length,
+    res = new Array(m + n).fill(0);
+
+  for (let i = m - 1; i >= 0; i--) {
+    for (let j = n - 1; j >= 0; j--) {
+      res[i + j + 1] += num1[i] * num2[j];
     }
-
-    if (carry > 0) str += carry;
-
-    res +=
-      parseInt(str.split("").reverse().join("")) *
-      Math.pow(10, num2.length - 1 - j);
-
-    console.log(
-      res,
-      parseInt(str.split("").reverse().join("")) *
-        Math.pow(10, num2.length - 1 - j)
-    );
   }
 
-  return res + "";
+  for (let k = m + n - 1; k > 0; k--) {
+    res[k - 1] += Math.floor(res[k] / 10);
+    res[k] %= 10;
+  }
+
+  res = res.slice(res[0] ? 0 : 1);
+
+  return res.join("");
 };
 // @lc code=end
