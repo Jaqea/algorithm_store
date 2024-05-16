@@ -17,15 +17,17 @@ var search = function (nums, target) {
   while (left <= right) {
     mid = Math.floor((left + right) / 2);
     if (nums[mid] === target) return mid;
-    else if (nums[left] === target) return left;
-    else if (nums[right] === target) return right;
-    else if (target < nums[left]) left = mid + 1;
-    else if (target > nums[right]) right = mid - 1;
-    else {
-      if (target > nums[mid]) left = mid + 1;
-      else right = mid - 1;
+    else if (target > nums[mid]) {
+      if (nums[mid] > nums[left]) left = mid + 1;
+      else if (target === nums[right]) return right;
+      else if (target > nums[right]) right = mid - 1;
+      else left = mid + 1;
+    } else if (target < nums[mid]) {
+      if (nums[mid] < nums[left]) right = mid - 1;
+      else if (target === nums[left]) return left;
+      else if (target > nums[left]) right = mid - 1;
+      else left = mid + 1;
     }
-    console.log(nums[left], nums[right]);
   }
 
   return -1;
