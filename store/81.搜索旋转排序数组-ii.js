@@ -19,13 +19,15 @@ var search = function (nums, target) {
     mid = Math.floor((left + right) / 2);
     if (nums[mid] === target) return true;
     else if (target > nums[mid]) {
-      if (nums[mid] > nums[left]) left = mid + 1;
+      if (nums[mid] >= nums[left] && nums[mid] === nums[right]) left = mid + 1;
       else if (target === nums[right]) return true;
       else if (target > nums[right]) right = mid - 1;
       else left = mid + 1;
     } else if (target < nums[mid]) {
-      if (nums[mid] < nums[left]) left = mid + 1;
-      else if (target === nums[left]) return true;
+      if (nums[mid] < nums[left]) right = mid - 1;
+      else if (nums[mid] === nums[left] && nums[mid] === nums[right]) {
+        right = mid - 1;
+      } else if (target === nums[left]) return true;
       else if (target > nums[left]) right = mid - 1;
       else left = mid + 1;
     }
