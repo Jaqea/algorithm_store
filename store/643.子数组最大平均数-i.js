@@ -11,23 +11,23 @@
  * @return {number}
  */
 var findMaxAverage = function (nums, k) {
-  let left = (sum = 0),
-    right = k - 1,
-    max;
-
-  sum = nums.slice(left, right + 1).reduce((pre, cur) => pre + cur);
-  const avg = sum / k;
-  max = avg;
-
-  right++;
-  left++;
+  let left = (right = sum = 0),
+    max = Number.MIN_SAFE_INTEGER;
 
   while (right < nums.length) {
-    sum = nums.slice(left, right + 1).reduce((pre, cur) => pre + cur);
-    const avg = sum / k;
-    max = max > avg ? max : avg;
+    sum += nums[right];
+    let len = right - left + 1;
+    if (len > k) {
+      sum -= nums[left];
+      left++;
+      len--;
+    }
+    if (len === k) {
+      const avg = sum / k;
+      max = max > avg ? max : avg;
+    }
+
     right++;
-    left++;
   }
 
   return max;
