@@ -12,37 +12,60 @@
  *     this.next = (next===undefined ? null : next)
  * }
  */
+
+const deleteRepeat = (head) => {
+  if (!head || !head.next) return head;
+
+  if (head.val !== head.next.val) {
+    const nextNode = deleteRepeat(head.next);
+    head.next = nextNode;
+
+    return head;
+  } else {
+    let node = head.next;
+
+    while (node && node.val === head.val) {
+      node = node.next;
+    }
+
+    return deleteRepeat(node);
+  }
+};
+
 /**
  * @param {ListNode} head
  * @return {ListNode}
  */
 var deleteDuplicates = function (head) {
-  if (!head || !head.next) return head;
-  let root,
-    left,
-    right,
-    last,
-    isMove = false;
-  root = left = new ListNode();
-  left.next = head;
-  last = head;
-  right = last.next;
+  /** 法一：迭代 */
+  // if (!head || !head.next) return head;
+  // let root,
+  //   left,
+  //   right,
+  //   last,
+  //   isMove = false;
+  // root = left = new ListNode();
+  // left.next = head;
+  // last = head;
+  // right = last.next;
 
-  while (right) {
-    while (right && last.val === right.val) {
-      isMove = true;
-      right = right.next;
-    }
+  // while (right) {
+  //   while (right && last.val === right.val) {
+  //     isMove = true;
+  //     right = right.next;
+  //   }
 
-    if (isMove) {
-      left.next = right;
-      isMove = false;
-    } else left = last;
+  //   if (isMove) {
+  //     left.next = right;
+  //     isMove = false;
+  //   } else left = last;
 
-    last = right;
-    if (right) right = right.next;
-  }
+  //   last = right;
+  //   if (right) right = right.next;
+  // }
 
-  return root.next;
+  // return root.next;
+  /** 法二：递归 */
+  return deleteRepeat(head);
 };
 // @lc code=end
