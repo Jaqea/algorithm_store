@@ -40,6 +40,7 @@ var sortList = function (head) {
   let len = 0,
     node = head,
     dummyHead = new ListNode();
+  dummyHead.next = head;
   while (node) {
     len++;
     node = node.next;
@@ -51,8 +52,10 @@ var sortList = function (head) {
     while (cur) {
       const leftHead = cur;
       for (let i = 1; i < subLen && cur.next; i++) cur = cur.next;
+
       const rightHead = cur.next;
-      cur.next = rightHead;
+      cur.next = null;
+      cur = rightHead;
       for (let i = 1; i < subLen && cur && cur.next; i++) cur = cur.next;
 
       let next = null;
@@ -68,5 +71,31 @@ var sortList = function (head) {
       cur = next;
     }
   }
+
+  function mergeTwoLists(l1, l2) {
+    let head = new ListNode(),
+      pre = head;
+
+    while (l1 && l2) {
+      if (l1.val < l2.val) {
+        pre.next = l1;
+        l1 = l1.next;
+      } else {
+        pre.next = l2;
+        l2 = l2.next;
+      }
+      pre = pre.next;
+    }
+
+    if (l1) {
+      pre.next = l1;
+    }
+
+    if (l2) pre.next = l2;
+
+    return head.next;
+  }
+
+  return dummyHead.next;
 };
 // @lc code=end
