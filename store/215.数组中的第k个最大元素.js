@@ -12,23 +12,23 @@
  */
 var findKthLargest = function (nums, k) {
   const partition = (arr, left, right) => {
-    let pivot = nums[left];
+    let pivot = arr[left];
 
     while (left < right) {
-      while (left < right && arr[right] >= pivot) {
+      while (left < right && arr[right] <= pivot) {
         right--;
       }
 
-      nums[left] = nums[right];
+      arr[left] = arr[right];
 
-      while (left < right && arr[left] <= pivot) {
+      while (left < right && arr[left] >= pivot) {
         left++;
       }
 
-      nums[right] = nums[left];
+      arr[right] = arr[left];
     }
 
-    nums[left] = pivot;
+    arr[left] = pivot;
 
     return left;
   };
@@ -36,11 +36,11 @@ var findKthLargest = function (nums, k) {
   const quickSort = (arr, left, right, index) => {
     const mid = partition(arr, left, right);
 
-    if (mid === index) return arr[mid];
+    if (mid === index) return mid;
     else if (mid > index) {
-      return quickSort(arr, mid + 1, right, index);
-    } else {
       return quickSort(arr, left, mid - 1, index);
+    } else {
+      return quickSort(arr, mid + 1, right, index);
     }
   };
 
