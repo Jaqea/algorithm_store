@@ -11,15 +11,17 @@
  * @return {number}
  */
 var findMedianSortedArrays = function (nums1, nums2) {
-  const nums = [...nums1, ...nums2];
-  nums.sort((a, b) => a - b);
+  // const nums = [...nums1, ...nums2];
+  // nums.sort((a, b) => a - b);
 
-  if (nums.length % 2) return nums[Math.floor(nums.length / 2)];
-  else
-    return (
-      (nums[Math.floor(nums.length / 2)] +
-        nums[Math.floor(nums.length / 2) - 1]) /
-      2
-    );
+  // if (nums.length % 2) return nums[Math.floor(nums.length / 2)];
+  // else
+  //   return (
+  //     (nums[Math.floor(nums.length / 2)] +
+  //       nums[Math.floor(nums.length / 2) - 1]) /
+  //     2
+  //   );
+
+  
 };
 // @lc code=end

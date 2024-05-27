@@ -33,17 +33,37 @@ var findKthLargest = function (nums, k) {
     return left;
   };
 
-  const quickSort = (arr, left, right, index) => {
-    const mid = partition(arr, left, right);
+  // const quickSort = (arr, left, right, index) => {
+  //   const mid = partition(arr, left, right);
 
-    if (mid === index) return mid;
-    else if (mid > index) {
-      return quickSort(arr, left, mid - 1, index);
-    } else {
-      return quickSort(arr, mid + 1, right, index);
+  //   if (mid === index) return mid;
+  //   else if (mid > index) {
+  //     return quickSort(arr, left, mid - 1, index);
+  //   } else {
+  //     return quickSort(arr, mid + 1, right, index);
+  //   }
+  // };
+
+  const quickSort = (arr, l, r, index) => {
+    if (l === r) return arr[index];
+    let partition = arr[l],
+      i = l,
+      j = r;
+    while (i < j) {
+      while (arr[i] < partition) i++;
+      while (arr[j] > partition) j--;
+      if (i < j) {
+        let t = arr[i];
+        arr[i] = arr[j];
+        arr[j] = t;
+        i++;
+        j--;
+      }
     }
+    if (index <= j) return quickSort(nums, l, j, index);
+    else return quickSort(nums, j + 1, r, index);
   };
 
-  return nums[quickSort(nums, 0, nums.length - 1, k - 1)];
+  return quickSort(nums, 0, nums.length - 1, nums.length - k);
 };
 // @lc code=end
