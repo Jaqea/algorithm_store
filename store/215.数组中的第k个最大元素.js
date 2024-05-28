@@ -11,59 +11,48 @@
  * @return {number}
  */
 var findKthLargest = function (nums, k) {
-  const partition = (arr, left, right) => {
-    let pivot = arr[left];
+  const quickSort = (arr, index) => {
+    const big = [],
+      equal = [],
+      small = [];
 
-    while (left < right) {
-      while (left < right && arr[right] <= pivot) {
-        right--;
-      }
+    console.log(Math.random());
+    const pivot = arr[Math.floor(Math.random() * arr.length)];
 
-      arr[left] = arr[right];
+    arr.forEach((item) => {
+      if (item > pivot) big.push(item);
+      else if (item < pivot) small.push(item);
+      else equal.push(item);
+    });
 
-      while (left < right && arr[left] >= pivot) {
-        left++;
-      }
-
-      arr[right] = arr[left];
-    }
-
-    arr[left] = pivot;
-
-    return left;
+    if (index <= big.length) return quickSort(big, index);
+    if (index > big.length + equal.length)
+      return quickSort(small, k - big.length - equal.length);
+    return pivot;
   };
 
-  // const quickSort = (arr, left, right, index) => {
-  //   const mid = partition(arr, left, right);
-
-  //   if (mid === index) return mid;
-  //   else if (mid > index) {
-  //     return quickSort(arr, left, mid - 1, index);
-  //   } else {
-  //     return quickSort(arr, mid + 1, right, index);
+  // const quickSort = (arr, l, r, index) => {
+  //   if (l === r) return arr[index];
+  //   let partition = arr[l],
+  //     i = l - 1,
+  //     j = r + 1;
+  //   while (i < j) {
+  //     do {
+  //       i++;
+  //     } while (arr[i] < partition);
+  //     do {
+  //       j--;
+  //     } while (arr[j] > partition);
+  //     if (i < j) {
+  //       let t = arr[i];
+  //       arr[i] = arr[j];
+  //       arr[j] = t;
+  //     }
   //   }
+  //   if (index <= j) return quickSort(nums, l, j, index);
+  //   else return quickSort(nums, j + 1, r, index);
   // };
 
-  const quickSort = (arr, l, r, index) => {
-    if (l === r) return arr[index];
-    let partition = arr[l],
-      i = l,
-      j = r;
-    while (i < j) {
-      while (arr[i] < partition) i++;
-      while (arr[j] > partition) j--;
-      if (i < j) {
-        let t = arr[i];
-        arr[i] = arr[j];
-        arr[j] = t;
-        i++;
-        j--;
-      }
-    }
-    if (index <= j) return quickSort(nums, l, j, index);
-    else return quickSort(nums, j + 1, r, index);
-  };
-
-  return quickSort(nums, 0, nums.length - 1, nums.length - k);
+  return quickSort(nums, k);
 };
 // @lc code=end
