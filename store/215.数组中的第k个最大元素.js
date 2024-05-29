@@ -16,7 +16,6 @@ var findKthLargest = function (nums, k) {
       equal = [],
       small = [];
 
-    console.log(Math.random());
     const pivot = arr[Math.floor(Math.random() * arr.length)];
 
     arr.forEach((item) => {
@@ -27,7 +26,7 @@ var findKthLargest = function (nums, k) {
 
     if (index <= big.length) return quickSort(big, index);
     if (index > big.length + equal.length)
-      return quickSort(small, k - big.length - equal.length);
+      return quickSort(small, index - big.length - equal.length);
     return pivot;
   };
 
