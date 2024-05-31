@@ -27,18 +27,28 @@ var serialize = function (root) {
   queue[rear++] = root;
   while (front < rear) {
     const node = queue[front++];
-    if (node.val) {
-      res.push(res);
+    if (node && node.val) {
+      res.push(node.val);
     }
-    if (node.left) {
-      queue[rear++] = node.left;
+    if (!node) {
+      res.push(null);
     }
 
-    if (node.right) {
-      queue[rear++] = node.right;
+    if (node) {
+      if (node.left) {
+        queue[rear++] = node.left;
+      } else {
+        queue[rear++] = null;
+      }
+
+      if (node.right) {
+        queue[rear++] = node.right;
+      } else {
+        queue[rear++] = null;
+      }
     }
   }
-
+  console.log(res);
   return res.join;
 };
 
