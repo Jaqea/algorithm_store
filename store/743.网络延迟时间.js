@@ -12,9 +12,37 @@
  * @return {number}
  */
 var networkDelayTime = function (times, n, k) {
-  const visited = new Array(n).fill(0);
-  let time = 0;
+  const visited = new Array(n).fill(0),
+    queue = [];
+  let front = (rear = time = max = 0);
 
-  return visited.includes(0) ? -1 : time;
+  visited[k - 1] = 1;
+  for (let i = 0; i < times.length; i++) {
+    if (times[i][0] === k) {
+      max = max > times[i][2] ? max : times[i][2];
+      queue[rear++] = times[i];
+    }
+  }
+
+  time += max;
+
+  while (front < rear) {
+    const node = queue[front++];
+    visited[node[1] - 1] = 1;
+    max = 0;
+    for (let i = 0; i < times.length; i++) {
+      if (!visited[times[i][0]] && times[i][0] === node[1]) {
+        max = max > times[i][2] ? max : times[i][2];
+        queue[rear++] = times[i];
+      }
+    }
+    console.log(time);
+    if (!visited.includes(0)) {
+      return time;
+    }
+    time += max;
+  }
+
+  return -1;
 };
 // @lc code=end
