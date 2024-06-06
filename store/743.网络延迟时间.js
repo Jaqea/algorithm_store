@@ -19,6 +19,7 @@ var networkDelayTime = function (times, n, k) {
   visited[k - 1] = 1;
   for (let i = 0; i < times.length; i++) {
     if (times[i][0] === k) {
+      visited[times[i][1] - 1] = 1;
       max = max > times[i][2] ? max : times[i][2];
       queue[rear++] = times[i];
     }
@@ -28,19 +29,20 @@ var networkDelayTime = function (times, n, k) {
 
   while (front < rear) {
     const node = queue[front++];
-    visited[node[1] - 1] = 1;
     max = 0;
     for (let i = 0; i < times.length; i++) {
       if (!visited[times[i][0]] && times[i][0] === node[1]) {
+        visited[times[i][1] - 1] = 1;
         max = max > times[i][2] ? max : times[i][2];
         queue[rear++] = times[i];
       }
     }
-    console.log(time);
+
+    time += max;
+
     if (!visited.includes(0)) {
       return time;
     }
-    time += max;
   }
 
   return -1;
