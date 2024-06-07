@@ -13,38 +13,34 @@
  */
 var networkDelayTime = function (times, n, k) {
   const visited = new Array(n).fill(0),
-    queue = [];
-  let front = (rear = time = max = 0);
+    g = Array(n)
+      .fill()
+      .map(() => new Array(n).fill(Number.MAX_SAFE_INTEGER)),
+    dist = new Array(n).fill(Number.MAX_SAFE_INTEGER);
+  let res;
 
-  visited[k - 1] = 1;
-  for (let i = 0; i < times.length; i++) {
-    if (times[i][0] === k) {
-      visited[times[i][1] - 1] = 1;
-      max = max > times[i][2] ? max : times[i][2];
-      queue[rear++] = times[i];
+  times.forEach((item) => {
+    g[item[0] - 1][item[1] - 1] = item[2];
+  });
+
+  dist[k - 1] = 0;
+  // visited[k - 1] = 1;
+
+  for (let i = 0; i < n; i++) {
+    let x = -1;
+
+    for (let j = 0; j < n; j++) {
+      if (!visited[j] && (x == -1 || dist[j] < dist[x])) x = j;
+    }
+
+    visited[x] = 1;
+    for (let p = 0; p < n; p++) {
+      dist[p] = Math.min(dist[p], dist[x] + g[x][p]);
     }
   }
 
-  time += max;
+  res = Math.max(...dist);
 
-  while (front < rear) {
-    const node = queue[front++];
-    max = 0;
-    for (let i = 0; i < times.length; i++) {
-      if (!visited[times[i][0]] && times[i][0] === node[1]) {
-        visited[times[i][1] - 1] = 1;
-        max = max > times[i][2] ? max : times[i][2];
-        queue[rear++] = times[i];
-      }
-    }
-
-    time += max;
-
-    if (!visited.includes(0)) {
-      return time;
-    }
-  }
-
-  return -1;
+  return res === Number.MAX_SAFE_INTEGER ? -1 : res;
 };
 // @lc code=end
