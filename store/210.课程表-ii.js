@@ -42,10 +42,28 @@ var findOrder = function (numCourses, prerequisites) {
 
   while (front < rear) {
     const course = queue[front++];
+    res.push(course);
 
     if (!map.has(course)) {
       continue;
     }
+
+    map.get(course).forEach((item) => {
+      inDegree.set(item, inDegree.get(item) - 1);
+      if (inDegree.get(item) === 0) {
+        queue[rear++] = item;
+      }
+    });
+
+    map.delete(course);
   }
+
+  for (let value of inDegree.values()) {
+    if (value !== 0) {
+      return [];
+    }
+  }
+
+  return res;
 };
 // @lc code=end
