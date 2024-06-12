@@ -17,5 +17,28 @@
  * @param {Node} node
  * @return {Node}
  */
-var cloneGraph = function (node) {};
+var cloneGraph = function (node) {
+  const visited = [];
+
+  const dfs = (n) => {
+    const cloneNode = new Node(n.val, []);
+
+    console.log(n);
+
+    if (!visited[n.val - 1]) {
+      visited[n.val - 1] = cloneNode;
+    } else {
+      return visited[n.val - 1];
+    }
+
+    n.neighbors.forEach((item) => {
+      const neighbor = dfs(item);
+      cloneNode.neighbors.push(neighbor);
+    });
+
+    return cloneNode;
+  };
+
+  return dfs(node);
+};
 // @lc code=end
