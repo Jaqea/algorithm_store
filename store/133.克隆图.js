@@ -21,15 +21,14 @@ var cloneGraph = function (node) {
   const visited = [];
 
   const dfs = (n) => {
-    const cloneNode = new Node(n.val, []);
+    if (!n) return;
 
-    console.log(n);
-
-    if (!visited[n.val - 1]) {
-      visited[n.val - 1] = cloneNode;
-    } else {
+    if (visited[n.val - 1]) {
       return visited[n.val - 1];
     }
+
+    const cloneNode = new Node(n.val, []);
+    visited[n.val - 1] = cloneNode;
 
     n.neighbors.forEach((item) => {
       const neighbor = dfs(item);
