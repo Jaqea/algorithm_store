@@ -16,6 +16,7 @@ var calculateMinimumHP = function (dungeon) {
   const add = new Array(dungeon.length)
     .fill()
     .map(() => Array(dungeon[0].length).fill(0));
+  let i, j;
 
   if (dungeon[0][0] < 0) {
     dp[0][0] = -dungeon[0][0];
@@ -23,7 +24,7 @@ var calculateMinimumHP = function (dungeon) {
     add[0][0] = dungeon[0][0];
   }
 
-  for (let i = 1; i < dungeon.length; i++) {
+  for (i = 1; i < dungeon.length; i++) {
     if (dungeon[i][0] < 0) {
       const temp = dungeon[i][0] + add[i - 1][0];
 
@@ -39,10 +40,9 @@ var calculateMinimumHP = function (dungeon) {
     }
   }
 
-  for (let j = 1; j < dungeon.length; j++) {
+  for (j = 1; j < dungeon[0].length; j++) {
     if (dungeon[0][j] < 0) {
       const temp = dungeon[0][j] + add[0][j - 1];
-
       if (temp > 0) {
         add[0][j] = temp;
         dp[0][j] = dp[0][j - 1];
@@ -54,33 +54,42 @@ var calculateMinimumHP = function (dungeon) {
       dp[0][j] = dp[0][j - 1];
     }
   }
-  console.log(add);
 
-  for (let i = 1; i < dungeon.length; i++) {
-    for (let j = 1; j < dungeon[0].length; j++) {
+  for (i = 1; i < dungeon.length; i++) {
+    for (j = 1; j < dungeon[0].length; j++) {
       if (dungeon[i][j] < 0) {
-        const temp = Math.max(add[i - 1][j], add[i][j - 1]) + dungeon[i][j];
-        if (temp < 0) {
-          dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) - temp;
+        if (dp[i - 1][j] > dp[i][j - 1]) {
+          const temp = add[i][j - 1] + dungeon[i][j];
+          if (temp < 0) {
+            dp[i][j] = dp[i][j - 1] - temp;
+          } else {
+            add[i][j] = temp;
+            dp[i][j] = dp[i][j - 1];
+          }
         } else {
-          add[i][j] = temp;
-          dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]);
+          const temp = add[i - 1][j] + dungeon[i][j];
+          if (temp < 0) {
+            dp[i][j] = dp[i - 1][j] - temp;
+          } else {
+            add[i][j] = temp;
+            dp[i][j] = dp[i - 1][j];
+          }
         }
       } else {
-        add[i][j] = Math.max(add[i - 1][j], add[i][j - 1]) + dungeon[i][j];
-        dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]);
+        if (dp[i - 1][j] > dp[i][j - 1]) {
+          add[i][j] = add[i][j - 1] + dungeon[i][j];
+          dp[i][j] = dp[i][j - 1];
+        } else {
+          add[i][j] = add[i - 1][j] + dungeon[i][j];
+          dp[i][j] = dp[i - 1][j];
+        }
       }
     }
   }
-  0 0 3
-  0 0 0
-  10 40 0
 
-  2 5 5
-  7 15 5
-  7 7 0
-
-  console.log(dp);
   console.log(add);
+  console.log(dp);
+
+  return dp[i - 1][j - 1] + 1;
 };
 // @lc code=end
