@@ -11,49 +11,88 @@
  */
 var spiralOrder = function (matrix) {
   // 写法一：比较烂
-  let left,
-    right,
-    offset,
-    n,
-    resMat = [],
-    rows = matrix.length,
-    cols = matrix[0].length;
-  offset = 0;
-  if (rows === 1) {
-    matrix[0].forEach((item) => resMat.push(item));
-  } else if (cols === 1) {
-    matrix.forEach((item) => resMat.push(item[0]));
-  } else {
-    left = right = offset;
-    n = (rows * cols) % 2 ? rows * cols - 1 : rows * cols;
-    while (resMat.length < n) {
-      while (right < cols - offset - 1) {
-        resMat.push(matrix[left][right]);
-        right++;
-      }
-      if (resMat.length === n) break;
-      while (left < rows - offset - 1) {
-        resMat.push(matrix[left][right]);
-        left++;
-      }
-      if (resMat.length === n) break;
-      while (right > offset) {
-        resMat.push(matrix[left][right]);
-        right--;
-      }
-      if (resMat.length === n) break;
-      while (left > offset) {
-        resMat.push(matrix[left][right]);
-        left--;
-      }
-      offset++;
-      left++;
-      right++;
+  // let left,
+  //   right,
+  //   offset,
+  //   n,
+  //   resMat = [],
+  //   rows = matrix.length,
+  //   cols = matrix[0].length;
+  // offset = 0;
+  // if (rows === 1) {
+  //   matrix[0].forEach((item) => resMat.push(item));
+  // } else if (cols === 1) {
+  //   matrix.forEach((item) => resMat.push(item[0]));
+  // } else {
+  //   left = right = offset;
+  //   n = (rows * cols) % 2 ? rows * cols - 1 : rows * cols;
+  //   while (resMat.length < n) {
+  //     while (right < cols - offset - 1) {
+  //       resMat.push(matrix[left][right]);
+  //       right++;
+  //     }
+  //     if (resMat.length === n) break;
+  //     while (left < rows - offset - 1) {
+  //       resMat.push(matrix[left][right]);
+  //       left++;
+  //     }
+  //     if (resMat.length === n) break;
+  //     while (right > offset) {
+  //       resMat.push(matrix[left][right]);
+  //       right--;
+  //     }
+  //     if (resMat.length === n) break;
+  //     while (left > offset) {
+  //       resMat.push(matrix[left][right]);
+  //       left--;
+  //     }
+  //     offset++;
+  //     left++;
+  //     right++;
+  //   }
+  //   if ((rows * cols) % 2 && left < rows && right < cols)
+  //     resMat.push(matrix[left][right]);
+  // }
+
+  // return resMat;
+  const m = matrix.length,
+    n = matrix[0].length;
+  const mat = [];
+  let startRow = (startCol = 0),
+    loop = Math.floor(Math.max(m, n) / 2),
+    offset = 1,
+    i,
+    j;
+
+  while (loop) {
+    for (j = startCol; j < n - offset; j++) {
+      mat.push(matrix[startRow][j]);
     }
-    if ((rows * cols) % 2 && left < rows && right < cols)
-      resMat.push(matrix[left][right]);
+    for (i = startRow; i < m - offset; i++) {
+      mat.push(matrix[i][j]);
+    }
+
+    for (j = n - offset; j > startCol; j--) {
+      mat.push(matrix[i][j]);
+    }
+
+    for (i = m - offset; i > startRow; i--) {
+      mat.push(matrix[i][j]);
+    }
+
+    loop--;
+    startRow++;
+    startCol++;
+    offset++;
   }
 
-  return resMat;
+  console.log(mat);
+
+  if (m === n && n % 2) {
+    const mid = Math.floor(n / 2);
+    mat.push(matrix[mid][mid]);
+  }
+
+  return mat;
 };
 // @lc code=end
