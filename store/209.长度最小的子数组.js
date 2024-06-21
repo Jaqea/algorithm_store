@@ -30,18 +30,29 @@ var minSubArrayLen = function (target, nums) {
   // }
   // return flag ? min : 0;
   // 法二：滑动窗口
-  let left,
-    right,
-    sum = 0,
-    min = nums.length + 1;
-  for (left = 0, right = left; right < nums.length; right++) {
+  // let left,
+  //   right,
+  //   sum = 0,
+  //   min = nums.length + 1;
+  // for (left = 0, right = left; right < nums.length; right++) {
+  //   sum += nums[right];
+  //   // 不断比较
+  //   while (sum >= target) {
+  //     min = min < right - left + 1 ? min : right - left + 1;
+  //     sum -= nums[left++];
+  //   }
+  // }
+  // return min === nums.length + 1 ? 0 : min;
+
+  let left = (sum = 0),
+    min = Number.MAX_SAFE_NUMBER;
+  for (let right = 0; right < nums.length; right++) {
     sum += nums[right];
-    // 不断比较
     while (sum >= target) {
       min = min < right - left + 1 ? min : right - left + 1;
       sum -= nums[left++];
     }
   }
-  return min === nums.length + 1 ? 0 : min;
+  return min === Number.MAX_SAFE_NUMBER ? 0 : min;
 };
 // @lc code=end

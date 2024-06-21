@@ -34,14 +34,14 @@ var removeElement = function (nums, val) {
   // }
   // nums.length = len;
   // 法二：暴力
-  let len = nums.length,
-    i,
-    j;
-  for (i = 0; i < len; i++) {
+  let len = nums.length;
+  for (let i = 0; i < len; i++) {
     if (nums[i] === val) {
-      for (j = i + 1; j < len; j++) nums[j - 1] = nums[j];
-      i--;
-      len--;
+      for (let j = i + 1; j < len; j++) {
+        nums[j - 1] = nums[j];
+      }
+      --i;
+      --len;
     }
   }
   return len;

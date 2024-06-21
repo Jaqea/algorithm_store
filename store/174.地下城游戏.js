@@ -10,86 +10,30 @@
  * @return {number}
  */
 var calculateMinimumHP = function (dungeon) {
-  const dp = new Array(dungeon.length)
-    .fill()
-    .map(() => Array(dungeon[0].length).fill(0));
-  const add = new Array(dungeon.length)
-    .fill()
-    .map(() => Array(dungeon[0].length).fill(0));
+  const m = dungeon.length,
+    n = dungeon[0].length;
+  const dp = new Array(m).fill().map(() => Array(n).fill(0));
   let i, j;
 
-  if (dungeon[0][0] < 0) {
-    dp[0][0] = -dungeon[0][0];
-  } else {
-    add[0][0] = dungeon[0][0];
+  dp[m - 1][n - 1] = Math.max(1, 1 - dungeon[m - 1][n - 1]);
+
+  for (i = m - 2; i >= 0; i--) {
+    dp[i][n - 1] = Math.max(1, dp[i + 1][n - 1] - dungeon[i][n - 1]);
   }
 
-  for (i = 1; i < dungeon.length; i++) {
-    if (dungeon[i][0] < 0) {
-      const temp = dungeon[i][0] + add[i - 1][0];
+  for (j = n - 2; j >= 0; j--) {
+    dp[m - 1][j] = Math.max(1, dp[m - 1][j + 1] - dungeon[m - 1][j]);
+  }
 
-      if (temp > 0) {
-        add[i][0] = temp;
-        dp[i][0] = dp[i - 1][0];
-      } else {
-        dp[i][0] = dp[i - 1][0] - temp;
-      }
-    } else {
-      add[i][0] = add[i - 1][0] + dungeon[i][0];
-      dp[i][0] = dp[i - 1][0];
+  for (i = m - 2; i >= 0; i--) {
+    for (j = n - 2; j >= 0; j--) {
+      const min = Math.min(dp[i + 1][j], dp[i][j + 1]);
+      dp[i][j] = Math.max(1, min - dungeon[i][j]);
     }
   }
 
-  for (j = 1; j < dungeon[0].length; j++) {
-    if (dungeon[0][j] < 0) {
-      const temp = dungeon[0][j] + add[0][j - 1];
-      if (temp > 0) {
-        add[0][j] = temp;
-        dp[0][j] = dp[0][j - 1];
-      } else {
-        dp[0][j] = dp[0][j - 1] - temp;
-      }
-    } else {
-      add[0][j] = add[0][j - 1] + dungeon[0][j];
-      dp[0][j] = dp[0][j - 1];
-    }
-  }
-
-  for (i = 1; i < dungeon.length; i++) {
-    for (j = 1; j < dungeon[0].length; j++) {
-      if (dungeon[i][j] < 0) {
-        if (dp[i - 1][j] > dp[i][j - 1]) {
-          const temp = add[i][j - 1] + dungeon[i][j];
-          if (temp < 0) {
-            dp[i][j] = dp[i][j - 1] - temp;
-          } else {
-            add[i][j] = temp;
-            dp[i][j] = dp[i][j - 1];
-          }
-        } else {
-          const temp = add[i - 1][j] + dungeon[i][j];
-          if (temp < 0) {
-            dp[i][j] = dp[i - 1][j] - temp;
-          } else {
-            add[i][j] = temp;
-            dp[i][j] = dp[i - 1][j];
-          }
-        }
-      } else {
-        if (dp[i - 1][j] > dp[i][j - 1]) {
-          add[i][j] = add[i][j - 1] + dungeon[i][j];
-          dp[i][j] = dp[i][j - 1];
-        } else {
-          add[i][j] = add[i - 1][j] + dungeon[i][j];
-          dp[i][j] = dp[i - 1][j];
-        }
-      }
-    }
-  }
-
-  console.log(add);
   console.log(dp);
 
-  return dp[i - 1][j - 1] + 1;
+  return dp[0][0];
 };
 // @lc code=end
