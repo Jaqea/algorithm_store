@@ -56,10 +56,12 @@ var spiralOrder = function (matrix) {
 
   // return resMat;
   const m = matrix.length,
-    n = matrix[0].length;
+    n = matrix[0].length,
+    min = Math.min(m, n),
+    max = Math.max(m, n);
   const mat = [];
   let startRow = (startCol = 0),
-    loop = Math.floor(Math.max(m, n) / 2),
+    loop = Math.floor(min / 2),
     offset = 1,
     i,
     j;
@@ -86,11 +88,17 @@ var spiralOrder = function (matrix) {
     offset++;
   }
 
-  console.log(mat);
-
-  if (m === n && n % 2) {
-    const mid = Math.floor(n / 2);
-    mat.push(matrix[mid][mid]);
+  if (min % 2) {
+    const mid = Math.floor(min / 2);
+    if (min === m) {
+      for (j = mid; j <= max - offset; j++) {
+        mat.push(matrix[mid][j]);
+      }
+    } else {
+      for (i = mid; i <= max - offset; i++) {
+        mat.push(matrix[i][mid]);
+      }
+    }
   }
 
   return mat;
