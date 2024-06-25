@@ -8,12 +8,12 @@
 
 const ListNode = function (val, next) {
   this.val = val === undefined ? 0 : val;
-  this.next = next === undefined ? null : val;
+  this.next = next === undefined ? null : next;
 };
 
 var MyLinkedList = function () {
   this.head = null;
-  this.rear = null;
+  this.tail = null;
   this.size = 0;
 };
 
@@ -22,7 +22,7 @@ MyLinkedList.prototype.get = function (index) {
     return -1;
   }
 
-  let cur = this.head;
+  let cur = new ListNode(0, this.head);
   while (index >= 0) {
     cur = cur.next;
     --index;
@@ -32,59 +32,82 @@ MyLinkedList.prototype.get = function (index) {
 };
 
 MyLinkedList.prototype.addAtHead = function (val) {
-  const node = new ListNode(val);
-  if (this.head) {
-    node.next = this.head;
-  }
+  const node = new ListNode(val, this.head);
   this.head = node;
   ++this.size;
+  if (!this.tail) {
+    this.tail = this.head;
+  }
 };
 
 MyLinkedList.prototype.addAtTail = function (val) {
   const node = new ListNode(val);
-  if (this.rear) {
-    this.rear.next = node;
+  if (this.tail) {
+    this.tail.next = node;
+    this.tail = node;
   } else {
-    this.rear = node;
+    this.tail = node;
+    this.head = node;
   }
-
   ++this.size;
 };
 
 MyLinkedList.prototype.addAtIndex = function (index, val) {
-  if (index < 0) {
-    this.addAtHead(val);
-  }
-
-  if (index + 1 === this.size) {
-    this.addAtTail(val);
-  }
-
-  let cur = this.head;
-  while (index > 0 && cur) {
-    cur = cur.next;
-    --index;
-  }
-  if (!cur) {
+  if (index > this.size) {
     return;
   }
 
-  const node = new ListNode(val);
-  node.next = cur.next;
+  if (index === this.size) {
+    this.addAtTail(val);
+    return;
+  }
+
+  if (index <= 0) {
+    this.addAtHead(val);
+    return;
+  }
+
+  let cur = new ListNode(0, this.head);
+  while (index - 1 >= 0) {
+    cur = cur.next;
+    index--;
+  }
+
+  const node = new ListNode(val, cur.next);
   cur.next = node;
   ++this.size;
 };
 
 MyLinkedList.prototype.deleteAtIndex = function (index) {
-  let cur = this.head;
+  if (index < 0 || index >= this.size) {
+    return;
+  }
 
-  while (index > 0 && cur) {
+  if (index === 0) {
+    let node = this.head;
+    this.head = node.next;
+    if (index === this.size - 1) {
+      this.tail = this.head;
+    }
+    node = null;
+    --this.size;
+    return;
+  }
+
+  console.log(this.size, index);
+
+  let cur = new ListNode(0, this.head);
+  while (index - 1 >= 0) {
     cur = cur.next;
-    --index;
+    index--;
   }
 
   let node = cur.next;
   cur.next = node.next;
+  if (index === this.size - 1) {
+    this.tail = cur;
+  }
+
   node = null;
   --this.size;
 };
