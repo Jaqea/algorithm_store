@@ -17,18 +17,22 @@ var MyLinkedList = function () {
   this.size = 0;
 };
 
-MyLinkedList.prototype.get = function (index) {
-  if (index < 0 || index >= this.size) {
-    return -1;
-  }
-
+MyLinkedList.prototype.getNode = function (index) {
   let cur = new ListNode(0, this.head);
   while (index >= 0) {
     cur = cur.next;
     --index;
   }
 
-  return cur.val;
+  return cur;
+};
+
+MyLinkedList.prototype.get = function (index) {
+  if (index < 0 || index >= this.size) {
+    return -1;
+  }
+
+  return this.getNode(index).val;
 };
 
 MyLinkedList.prototype.addAtHead = function (val) {
@@ -36,7 +40,7 @@ MyLinkedList.prototype.addAtHead = function (val) {
   this.head = node;
   ++this.size;
   if (!this.tail) {
-    this.tail = this.head;
+    this.tail = node;
   }
 };
 
@@ -67,11 +71,7 @@ MyLinkedList.prototype.addAtIndex = function (index, val) {
     return;
   }
 
-  let cur = new ListNode(0, this.head);
-  while (index - 1 >= 0) {
-    cur = cur.next;
-    index--;
-  }
+  let cur = this.getNode(index - 1);
 
   const node = new ListNode(val, cur.next);
   cur.next = node;
@@ -84,31 +84,20 @@ MyLinkedList.prototype.deleteAtIndex = function (index) {
   }
 
   if (index === 0) {
-    let node = this.head;
-    this.head = node.next;
+    this.head = this.head.next;
     if (index === this.size - 1) {
       this.tail = this.head;
     }
-    node = null;
     --this.size;
     return;
   }
 
-  console.log(this.size, index);
+  let cur = this.getNode(index - 1);
 
-  let cur = new ListNode(0, this.head);
-  while (index - 1 >= 0) {
-    cur = cur.next;
-    index--;
-  }
-
-  let node = cur.next;
-  cur.next = node.next;
+  cur.next = cur.next.next;
   if (index === this.size - 1) {
     this.tail = cur;
   }
-
-  node = null;
   --this.size;
 };
 
