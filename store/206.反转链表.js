@@ -36,12 +36,36 @@ var reverseList = function (head) {
   //   p = q;
   // }
   // return vh.next;
-
   // 法二：递归
-  let node;
-  headNode = null;
-  if (head) node = reverse(head);
-  if (node) node.next = null;
-  return headNode;
+  // let node;
+  // headNode = null;
+  // if (head) node = reverse(head);
+  // if (node) node.next = null;
+  // return headNode;
+  // if (!head || !head.next) {
+  //   return head;
+  // }
+  // let pre = head,
+  //   cur = pre.next;
+  // pre.next = null;
+  // while (cur) {
+  //   const temp = cur.next;
+  //   cur.next = pre;
+  //   pre = cur;
+  //   cur = temp;
+  // }
+  // return pre;
+
+  const reverse = (node) => {
+    if (!node || !node.next) {
+      return node;
+    }
+    const nextNode = reverse(node.next);
+    node.next.next = node;
+    node.next = null;
+    return nextNode;
+  };
+
+  return reverse(head);
 };
 // @lc code=end

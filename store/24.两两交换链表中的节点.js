@@ -53,24 +53,45 @@ var swapPairs = function (head) {
   // }
   // return head;
 
-  if (!head || !head.next) return head;
-  let front,
-    rear,
-    root = new ListNode();
-  root.next = head;
-  front = root;
-  rear = front.next.next;
+  // if (!head || !head.next) return head;
+  // let front,
+  //   rear,
+  //   root = new ListNode();
+  // root.next = head;
+  // front = root;
+  // rear = front.next.next;
 
-  while (rear) {
-    const temp = front.next;
-    temp.next = rear.next;
-    front.next = rear;
-    rear.next = temp;
-    front = temp;
-    if (temp.next) rear = temp.next.next;
-    else break;
+  // while (rear) {
+  //   const temp = front.next;
+  //   temp.next = rear.next;
+  //   front.next = rear;
+  //   rear.next = temp;
+  //   front = temp;
+  //   if (temp.next) rear = temp.next.next;
+  //   else break;
+  // }
+
+  // return root.next;
+
+  if (!head || !head.next) {
+    return head;
+  }
+  let dummyNode = new ListNode(0, head),
+    p = head,
+    q = p.next,
+    headNode = dummyNode;
+  while (p && q) {
+    headNode.next = q;
+    p.next = q.next;
+    q.next = p;
+
+    headNode = p;
+    p = p.next;
+    if (p) {
+      q = p.next;
+    }
   }
 
-  return root.next;
+  return dummyNode.next;
 };
 // @lc code=end

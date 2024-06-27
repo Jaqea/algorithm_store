@@ -6,19 +6,19 @@
 
 // @lc code=start
 
-const ListNode = function (val, next) {
+const LinkNode = function (val, next) {
   this.val = val === undefined ? 0 : val;
   this.next = next === undefined ? null : next;
 };
 
-var MyLinkedList = function () {
+const MyLinkedList = function () {
   this.head = null;
   this.tail = null;
   this.size = 0;
 };
 
 MyLinkedList.prototype.getNode = function (index) {
-  let cur = new ListNode(0, this.head);
+  let cur = new LinkNode(0, this.head);
   while (index >= 0) {
     cur = cur.next;
     --index;
@@ -36,7 +36,7 @@ MyLinkedList.prototype.get = function (index) {
 };
 
 MyLinkedList.prototype.addAtHead = function (val) {
-  const node = new ListNode(val, this.head);
+  const node = new LinkNode(val, this.head);
   this.head = node;
   ++this.size;
   if (!this.tail) {
@@ -45,7 +45,7 @@ MyLinkedList.prototype.addAtHead = function (val) {
 };
 
 MyLinkedList.prototype.addAtTail = function (val) {
-  const node = new ListNode(val);
+  const node = new LinkNode(val);
   if (this.tail) {
     this.tail.next = node;
     this.tail = node;
@@ -73,7 +73,7 @@ MyLinkedList.prototype.addAtIndex = function (index, val) {
 
   let cur = this.getNode(index - 1);
 
-  const node = new ListNode(val, cur.next);
+  const node = new LinkNode(val, cur.next);
   cur.next = node;
   ++this.size;
 };
