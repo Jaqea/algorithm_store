@@ -18,25 +18,28 @@
  * @return {ListNode}
  */
 var removeNthFromEnd = function (head, n) {
-  if (head) {
-    let p,
-      q,
-      vh = new ListNode();
-    vh.next = head;
-    p = vh;
-    q = p.next;
-    while (n && q) {
-      q = q.next;
-      n--;
-    }
-    while (q) {
-      p = p.next;
-      q = q.next;
-    }
-    if (p.next) p.next = p.next.next;
-    else p.next = null;
-    return vh.next;
+  if (!head) {
+    return head;
   }
-  return head;
+
+  let vh = new ListNode(0, head),
+    slow = vh,
+    fast = slow;
+
+  while (n) {
+    fast = fast.next;
+    --n;
+  }
+
+  while (fast.next) {
+    slow = slow.next;
+    fast = fast.next;
+  }
+
+  let node = slow.next;
+  slow.next = node.next;
+  node = null;
+
+  return vh.next;
 };
 // @lc code=end
