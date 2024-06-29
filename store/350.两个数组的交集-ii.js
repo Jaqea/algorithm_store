@@ -34,18 +34,38 @@ var intersect = function (nums1, nums2) {
   // });
   // return res;
   // 法二：
-  let map = new Map(),
+  // let map = new Map(),
+  //   res = [];
+  // nums1.forEach((item) => {
+  //   if (map.has(item)) map.set(item, map.get(item) + 1);
+  //   else map.set(item, 1);
+  // });
+  // nums2.forEach((item) => {
+  //   if (map.has(item) && map.get(item) != 0) {
+  //     map.set(item, map.get(item) - 1);
+  //     res.push(item);
+  //   }
+  // });
+  // return res;
+
+  const map = new Map(),
     res = [];
+
   nums1.forEach((item) => {
-    if (map.has(item)) map.set(item, map.get(item) + 1);
-    else map.set(item, 1);
+    if (!map.has(item)) {
+      map.set(item, 1);
+    } else {
+      map.set(item, map.get(item) + 1);
+    }
   });
+
   nums2.forEach((item) => {
-    if (map.has(item) && map.get(item) != 0) {
+    if (map.has(item) && map.get(item) > 0) {
       map.set(item, map.get(item) - 1);
       res.push(item);
     }
   });
+
   return res;
 };
 // @lc code=end
