@@ -36,20 +36,45 @@ var detectCycle = function (head) {
   // }
   // return null;
 
-  if (!head || !head.next) return null;
-  let slow, fast;
-  slow = fast = head;
+  // if (!head || !head.next) return null;
+  // let slow, fast;
+  // slow = fast = head;
+  // while (fast && fast.next) {
+  //   slow = slow.next;
+  //   fast = fast.next.next;
+  //   if (slow === fast) break;
+  // }
+  // if (slow !== fast) return null;
+  // slow = head;
+  // while (slow !== fast) {
+  //   slow = slow.next;
+  //   fast = fast.next;
+  // }
+  // return fast;
+
+  if (!head || !head.next) {
+    return null;
+  }
+
+  let slow = (fast = head);
   while (fast && fast.next) {
     slow = slow.next;
     fast = fast.next.next;
-    if (slow === fast) break;
+    if (slow === fast) {
+      break;
+    }
   }
-  if (slow !== fast) return null;
+
+  if (slow !== fast) {
+    return null;
+  }
+
   slow = head;
   while (slow !== fast) {
     slow = slow.next;
     fast = fast.next;
   }
-  return fast;
+
+  return slow;
 };
 // @lc code=end

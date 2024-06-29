@@ -59,22 +59,42 @@ var groupAnagrams = function (strs) {
   // }
   // return res;
   // 法二：
-  let map = new Map(),
-    primes = getPrime(102),
+  // let map = new Map(),
+  //   primes = getPrime(102),
+  //   res = [];
+  // strs.forEach((item) => {
+  //   sortItem = Array.from(item).map((item) => item.charCodeAt() - 97);
+  //   let msum = 1;
+  //   sortItem.forEach((item) => {
+  //     msum = msum * primes[item];
+  //   });
+  //   if (map.has(msum)) {
+  //     map.get(msum).push(item);
+  //   } else {
+  //     map.set(msum, [item]);
+  //   }
+  // });
+  // for (let value of map.values()) res.push(value);
+  // return res;
+
+  const map = new Map(),
     res = [];
-  strs.forEach((item) => {
-    sortItem = Array.from(item).map((item) => item.charCodeAt() - 97);
-    let msum = 1;
-    sortItem.forEach((item) => {
-      msum = msum * primes[item];
-    });
-    if (map.has(msum)) {
-      map.get(msum).push(item);
+
+  let sortStrs = [...strs];
+  sortStrs = sortStrs.map((strItem) => Array.from(strItem).sort().join(""));
+
+  sortStrs.forEach((value, index) => {
+    if (!map.has(value)) {
+      map.set(value, [strs[index]]);
     } else {
-      map.set(msum, [item]);
+      map.get(value).push(strs[index]);
     }
   });
-  for (let value of map.values()) res.push(value);
+
+  for (let value of map.values()) {
+    res.push(value);
+  }
+
   return res;
 };
 // @lc code=end
