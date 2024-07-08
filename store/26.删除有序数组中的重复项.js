@@ -35,13 +35,24 @@ var removeDuplicates = function (nums) {
   // }
   // return len;
   // 写法二：
-  let slow, fast, len;
-  len = nums.length;
-  for (fast = 1, slow = 0; fast < nums.length; fast++) {
-    if (nums[slow] !== nums[fast]) {
-      nums[++slow] = nums[fast];
-    } else len--;
+  // let slow, fast, len;
+  // len = nums.length;
+  // for (fast = 1, slow = 0; fast < nums.length; fast++) {
+  //   if (nums[slow] !== nums[fast]) {
+  //     nums[++slow] = nums[fast];
+  //   } else len--;
+  // }
+  // return len;
+
+  let i = (j = 0);
+
+  for (; j < nums.length; j++) {
+    if (j + 1 < nums.length && nums[j] === nums[j + 1]) {
+      continue;
+    }
+    nums[i++] = nums[j];
   }
-  return len;
+
+  return i;
 };
 // @lc code=end
