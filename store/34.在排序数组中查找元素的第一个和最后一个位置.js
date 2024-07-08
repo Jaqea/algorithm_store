@@ -35,6 +35,19 @@ var searchRange = function (nums, target) {
   // return res;
 
   let leftBorder = (rightBorder = -2);
+  const getLeftBorder = () => {
+    let left = 0,
+      right = nums.length - 1;
+    while (left <= right) {
+      const mid = Math.floor((left + right) / 2);
+      if (nums[mid] < target) {
+        left = mid + 1;
+      } else {
+        right = mid - 1;
+        leftBorder = right;
+      }
+    }
+  };
   const getRightBorder = () => {
     let left = 0,
       right = nums.length - 1;
@@ -45,20 +58,6 @@ var searchRange = function (nums, target) {
       } else {
         left = mid + 1;
         rightBorder = left;
-      }
-    }
-  };
-
-  const getLeftBorder = () => {
-    let left = 0,
-      right = nums.length - 1;
-    while (left <= right) {
-      const mid = Math.floor((left + right) / 2);
-      if (nums[mid] >= target) {
-        right = mid - 1;
-        leftBorder = right;
-      } else {
-        left = mid + 1;
       }
     }
   };
