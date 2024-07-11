@@ -17,7 +17,6 @@ var backspaceCompare = function (s, t) {
   // i = s.length - 1;
   // j = t.length - 1;
   // numS = numT = 0;
-
   // while (1) {
   //   while (i > -1) {
   //     if (s[i] === "#") numS++;
@@ -44,25 +43,66 @@ var backspaceCompare = function (s, t) {
   // console.log(i, j);
   // if (s[i] === t[j]) return true;
   // else return false;
+  // let stack = [],
+  //   top = 0;
+  // for (let str of s) {
+  //   if (str === "#") {
+  //     if (top > 0) top--;
+  //     else continue;
+  //   } else stack[top++] = str;
+  // }
+  // const s1 = stack.slice(0, top).join("");
+  // top = 0;
+  // for (let str of t) {
+  //   if (str === "#") {
+  //     if (top > 0) top--;
+  //     else continue;
+  //   } else stack[top++] = str;
+  // }
+  // const s2 = stack.slice(0, top).join("");
+  // return s1 === s2;
 
-  let stack = [],
-    top = 0;
-  for (let str of s) {
-    if (str === "#") {
-      if (top > 0) top--;
-      else continue;
-    } else stack[top++] = str;
-  }
-  const s1 = stack.slice(0, top).join("");
-  top = 0;
-  for (let str of t) {
-    if (str === "#") {
-      if (top > 0) top--;
-      else continue;
-    } else stack[top++] = str;
-  }
-  const s2 = stack.slice(0, top).join("");
+  let i = s.length - 1,
+    j = t.length - 1,
+    numS = 0,
+    numT = 0;
 
-  return s1 === s2;
+  while (i > -1 || j > -1) {
+    while (i > -1) {
+      if (s[i] === "#") {
+        numS++;
+      } else {
+        if (numS > 0) {
+          numS--;
+        } else {
+          break;
+        }
+      }
+
+      i--;
+    }
+
+    while (j > -1) {
+      if (t[j] === "#") {
+        numT++;
+      } else {
+        if (numT > 0) {
+          numT--;
+        } else {
+          break;
+        }
+      }
+      j--;
+    }
+
+    if (s[i] !== t[j]) {
+      return false;
+    }
+
+    i--;
+    j--;
+  }
+
+  return true;
 };
 // @lc code=end
