@@ -24,9 +24,29 @@ const dfs = (graph, x) => {
   }
 };
 var allPathsSourceTarget = function (graph) {
-  res = [];
-  path = [0];
-  dfs(graph, 0);
+  // res = [];
+  // path = [0];
+  // dfs(graph, 0);
+  // return res;
+
+  const res = [];
+  let path = [0];
+
+  const dfs = (grid, x, n) => {
+    if (x === n) {
+      res.push([...path]);
+      return;
+    }
+
+    for (let i = 0; i < grid[x].length; i++) {
+      path.push(grid[x][i]);
+      dfs(grid, grid[x][i], n);
+      path.pop();
+    }
+  };
+
+  dfs(graph, 0, graph.length - 1);
+
   return res;
 };
 // @lc code=end
