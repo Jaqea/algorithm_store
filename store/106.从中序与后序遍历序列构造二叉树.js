@@ -19,27 +19,62 @@
  * @return {TreeNode}
  */
 var buildTree = function (inorder, postorder) {
-  if (!inorder.length || !postorder.length) return null;
+  // if (!inorder.length || !postorder.length) return null;
 
-  const root = new TreeNode(postorder[postorder.length - 1]);
+  // const root = new TreeNode(postorder[postorder.length - 1]);
 
-  if (inorder.length === 1 || postorder.length === 1) return root;
+  // if (inorder.length === 1 || postorder.length === 1) return root;
 
-  let deleteIndex;
-  for (deleteIndex = 0; deleteIndex < inorder.length; deleteIndex++)
-    if (inorder[deleteIndex] === root.val) break;
+  // let deleteIndex;
+  // for (deleteIndex = 0; deleteIndex < inorder.length; deleteIndex++)
+  //   if (inorder[deleteIndex] === root.val) break;
 
-  const inorderLeft = inorder.slice(0, deleteIndex);
-  const inorderRight = inorder.slice(deleteIndex + 1, inorder.length);
-  const postorderLeft = postorder.slice(0, inorderLeft.length);
-  const postorderRight = postorder.slice(
-    inorderLeft.length,
-    postorder.length - 1
-  );
+  // const inorderLeft = inorder.slice(0, deleteIndex);
+  // const inorderRight = inorder.slice(deleteIndex + 1, inorder.length);
+  // const postorderLeft = postorder.slice(0, inorderLeft.length);
+  // const postorderRight = postorder.slice(
+  //   inorderLeft.length,
+  //   postorder.length - 1
+  // );
 
-  root.left = buildTree(inorderLeft, postorderLeft);
-  root.right = buildTree(inorderRight, postorderRight);
+  // root.left = buildTree(inorderLeft, postorderLeft);
+  // root.right = buildTree(inorderRight, postorderRight);
 
-  return root;
+  // return root;
+
+  const build = (behand, ino) => {
+    if (!behand.length) {
+      return null;
+    }
+
+    const root = new TreeNode(behand[behand.length - 1]);
+
+    if (behand.length === 1) {
+      return root;
+    }
+
+    let deleteIndex;
+    for (deleteIndex = 0; deleteIndex < ino.length; deleteIndex++) {
+      if (ino[deleteIndex] === behand[behand.length - 1]) {
+        break;
+      }
+    }
+
+    const inoLeft = ino.slice(0, deleteIndex);
+    const inoRight = ino.slice(deleteIndex + 1);
+
+    const behandLeft = behand.slice(0, inoLeft.length);
+    const behandRight = behand.slice(
+      inoLeft.length,
+      inoLeft.length + inoRight.length
+    );
+
+    root.left = build(behandLeft, inoLeft);
+    root.right = build(behandRight, inoRight);
+
+    return root;
+  };
+
+  return build(postorder, inorder);
 };
 // @lc code=end

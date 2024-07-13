@@ -44,7 +44,23 @@ const midTraverse = (node) => {
 var invertTree = function (root) {
   // preTraverse(root);
   // subTraverse(root);
-  midTraverse(root);
+  // midTraverse(root);
+  // return root;
+
+  const postTravel = (node) => {
+    if (!node) {
+      return null;
+    }
+
+    postTravel(node.left);
+    const temp = node.left;
+    node.left = node.right;
+    node.right = temp;
+    postTravel(node.left);
+  };
+
+  postTravel(root);
+
   return root;
 };
 // @lc code=end

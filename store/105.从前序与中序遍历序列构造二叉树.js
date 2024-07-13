@@ -19,23 +19,56 @@
  * @return {TreeNode}
  */
 var buildTree = function (preorder, inorder) {
-  if (!preorder.length || !inorder.length) return null;
+  // if (!preorder.length || !inorder.length) return null;
 
-  const node = new TreeNode(preorder[0]);
-  if (preorder.length === 1) return node;
+  // const node = new TreeNode(preorder[0]);
+  // if (preorder.length === 1) return node;
 
-  let deleteIndex;
-  for (deleteIndex = 0; deleteIndex < inorder.length; deleteIndex++)
-    if (inorder[deleteIndex] === node.val) break;
+  // let deleteIndex;
+  // for (deleteIndex = 0; deleteIndex < inorder.length; deleteIndex++)
+  //   if (inorder[deleteIndex] === node.val) break;
 
-  const inorderLeft = inorder.slice(0, deleteIndex);
-  const inorderRight = inorder.slice(deleteIndex + 1, inorder.length);
-  const preorderLeft = preorder.slice(1, inorderLeft.length + 1);
-  const preorderRight = preorder.slice(inorderLeft.length + 1, preorder.length);
+  // const inorderLeft = inorder.slice(0, deleteIndex);
+  // const inorderRight = inorder.slice(deleteIndex + 1, inorder.length);
+  // const preorderLeft = preorder.slice(1, inorderLeft.length + 1);
+  // const preorderRight = preorder.slice(inorderLeft.length + 1, preorder.length);
 
-  node.left = buildTree(preorderLeft, inorderLeft);
-  node.right = buildTree(preorderRight, inorderRight);
+  // node.left = buildTree(preorderLeft, inorderLeft);
+  // node.right = buildTree(preorderRight, inorderRight);
 
-  return node;
+  // return node;
+
+  const build = (preo, ino) => {
+    const root = new TreeNode(preo[0]);
+
+    if (preo.length === 1) {
+      return root;
+    }
+
+    if (!preo.length) {
+      return null;
+    }
+
+    let deleteIndex;
+    for (deleteIndex = 0; deleteIndex < ino.length; deleteIndex++) {
+      if (ino[deleteIndex] === preo[0]) break;
+    }
+
+    const inoLeft = ino.slice(0, deleteIndex);
+    const inoRight = ino.slice(deleteIndex + 1);
+
+    const preoLeft = preo.slice(1, inoLeft.length + 1);
+    const preoRight = preo.slice(
+      inoLeft.length + 1,
+      inoLeft.length + 1 + inoRight.length
+    );
+
+    root.left = build(preoLeft, inoLeft);
+    root.right = build(preoRight, inoRight);
+
+    return root;
+  };
+
+  return build(preorder, inorder);
 };
 // @lc code=end
