@@ -64,9 +64,7 @@ var backspaceCompare = function (s, t) {
 
   let i = s.length - 1,
     j = t.length - 1,
-    numS = 0,
-    numT = 0;
-
+    numS = (numT = 0);
   while (i > -1 || j > -1) {
     while (i > -1) {
       if (s[i] === "#") {
@@ -78,7 +76,6 @@ var backspaceCompare = function (s, t) {
           break;
         }
       }
-
       i--;
     }
 
