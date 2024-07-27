@@ -35,11 +35,42 @@ const findPath = (node, targetSum) => {
 };
 
 var pathSum = function (root, targetSum) {
-  res = [];
-  if (!root) return res;
-  path = [];
-  top = 0;
-  findPath(root, targetSum);
+  // res = [];
+  // if (!root) return res;
+  // path = [];
+  // top = 0;
+  // findPath(root, targetSum);
+  // return res;
+
+  if (!root) {
+    return [];
+  }
+  const res = [],
+    path = [];
+  let sum = 0;
+
+  const preTravel = (node) => {
+    sum += node.val;
+    path.push(node.val);
+    if (!node.left && !node.right && sum === targetSum) {
+      res.push([...path]);
+      return;
+    }
+
+    if (node.left) {
+      preTravel(node.left);
+      path.pop();
+      sum -= node.left.val;
+    }
+    if (node.right) {
+      preTravel(node.right);
+      path.pop();
+      sum -= node.right.val;
+    }
+  };
+
+  preTravel(root);
+
   return res;
 };
 // @lc code=end
