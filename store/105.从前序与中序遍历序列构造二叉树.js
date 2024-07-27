@@ -58,10 +58,7 @@ var buildTree = function (preorder, inorder) {
     const inoRight = ino.slice(deleteIndex + 1);
 
     const preoLeft = preo.slice(1, inoLeft.length + 1);
-    const preoRight = preo.slice(
-      inoLeft.length + 1,
-      inoLeft.length + 1 + inoRight.length
-    );
+    const preoRight = preo.slice(inoLeft.length + 1);
 
     root.left = build(preoLeft, inoLeft);
     root.right = build(preoRight, inoRight);

@@ -47,35 +47,71 @@ var generateMatrix = function (n) {
   // if (n % 2) mat[left][right] = i;
   // return mat;
 
-  const mat = new Array(n).fill().map(() => Array(n));
-  let startRow = (startCol = 0),
-    loop = (mid = Math.floor(n / 2)),
-    count = (offset = 1),
-    i,
-    j;
+  // const mat = new Array(n).fill().map(() => Array(n));
+  // let startRow = (startCol = 0),
+  //   loop = (mid = Math.floor(n / 2)),
+  //   count = (offset = 1),
+  //   i,
+  //   j;
+
+  // while (loop) {
+  //   for (j = startCol; j < n - offset; j++) {
+  //     mat[startRow][j] = count++;
+  //   }
+  //   for (i = startRow; i < n - offset; i++) {
+  //     mat[i][j] = count++;
+  //   }
+  //   for (j = n - offset; j > startCol; j--) {
+  //     mat[i][j] = count++;
+  //   }
+  //   for (i = n - offset; i > startRow; i--) {
+  //     mat[i][j] = count++;
+  //   }
+  //   loop--;
+  //   offset++;
+  //   startRow++;
+  //   startCol++;
+  // }
+
+  // if (n % 2) {
+  //   mat[mid][mid] = count;
+  // }
+  // return mat;
+
+  const mat = new Array(n).fill().map(() => Array(n).fill()),
+    mid = Math.floor(n / 2);
+  let offset = 1,
+    loop = mid,
+    row = (col = 0),
+    num = 1;
 
   while (loop) {
-    for (j = startCol; j < n - offset; j++) {
-      mat[startRow][j] = count++;
+    for (; col < n - offset; col++) {
+      mat[row][col] = num++;
     }
-    for (i = startRow; i < n - offset; i++) {
-      mat[i][j] = count++;
+
+    for (; row < n - offset; row++) {
+      mat[row][col] = num++;
     }
-    for (j = n - offset; j > startCol; j--) {
-      mat[i][j] = count++;
+
+    for (; col >= offset; col--) {
+      mat[row][col] = num++;
     }
-    for (i = n - offset; i > startRow; i--) {
-      mat[i][j] = count++;
+
+    for (; row >= offset; row--) {
+      mat[row][col] = num++;
     }
+
     loop--;
     offset++;
-    startRow++;
-    startCol++;
+    row++;
+    col++;
   }
 
   if (n % 2) {
-    mat[mid][mid] = count;
+    mat[mid][mid] = num;
   }
+
   return mat;
 };
 // @lc code=end
