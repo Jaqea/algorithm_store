@@ -55,52 +55,105 @@ var spiralOrder = function (matrix) {
   // }
 
   // return resMat;
-  const m = matrix.length,
+  // const m = matrix.length,
+  //   n = matrix[0].length,
+  //   min = Math.min(m, n),
+  //   max = Math.max(m, n);
+  // const mat = [];
+  // let startRow = (startCol = 0),
+  //   loop = Math.floor(min / 2),
+  //   offset = 1,
+  //   i,
+  //   j;
+
+  // while (loop) {
+  //   for (j = startCol; j < n - offset; j++) {
+  //     mat.push(matrix[startRow][j]);
+  //   }
+  //   for (i = startRow; i < m - offset; i++) {
+  //     mat.push(matrix[i][j]);
+  //   }
+
+  //   for (j = n - offset; j > startCol; j--) {
+  //     mat.push(matrix[i][j]);
+  //   }
+
+  //   for (i = m - offset; i > startRow; i--) {
+  //     mat.push(matrix[i][j]);
+  //   }
+
+  //   loop--;
+  //   startRow++;
+  //   startCol++;
+  //   offset++;
+  // }
+
+  // if (min % 2) {
+  //   const mid = Math.floor(min / 2);
+  //   if (min === m) {
+  //     for (j = mid; j <= max - offset; j++) {
+  //       mat.push(matrix[mid][j]);
+  //     }
+  //   } else {
+  //     for (i = mid; i <= max - offset; i++) {
+  //       mat.push(matrix[i][mid]);
+  //     }
+  //   }
+  // }
+
+  // return mat;
+
+  const res = [],
+    m = matrix.length,
     n = matrix[0].length,
-    min = Math.min(m, n),
-    max = Math.max(m, n);
-  const mat = [];
-  let startRow = (startCol = 0),
+    min = m > n ? n : m,
+    rowMid = Math.floor(m / 2),
+    colMid = Math.floor(n / 2);
+  let offset = 1,
     loop = Math.floor(min / 2),
-    offset = 1,
-    i,
-    j;
+    row = (col = 0);
 
   while (loop) {
-    for (j = startCol; j < n - offset; j++) {
-      mat.push(matrix[startRow][j]);
-    }
-    for (i = startRow; i < m - offset; i++) {
-      mat.push(matrix[i][j]);
+    for (; col < n - offset; col++) {
+      res.push(matrix[row][col]);
     }
 
-    for (j = n - offset; j > startCol; j--) {
-      mat.push(matrix[i][j]);
+    for (; row < m - offset; row++) {
+      res.push(matrix[row][col]);
     }
 
-    for (i = m - offset; i > startRow; i--) {
-      mat.push(matrix[i][j]);
+    for (; col >= offset; col--) {
+      res.push(matrix[row][col]);
+    }
+
+    for (; row >= offset; row--) {
+      res.push(matrix[row][col]);
     }
 
     loop--;
-    startRow++;
-    startCol++;
     offset++;
+    row++;
+    col++;
   }
 
-  if (min % 2) {
-    const mid = Math.floor(min / 2);
-    if (min === m) {
-      for (j = mid; j <= max - offset; j++) {
-        mat.push(matrix[mid][j]);
+  if (m > n) {
+    if (n % 2) {
+      for (; row <= m - offset; row++) {
+        res.push(matrix[row][col]);
       }
-    } else {
-      for (i = mid; i <= max - offset; i++) {
-        mat.push(matrix[i][mid]);
+    }
+  } else if (m === n) {
+    if (n % 2) {
+      res.push(matrix[rowMid][colMid]);
+    }
+  } else {
+    if (m % 2) {
+      for (; col <= n - offset; col++) {
+        res.push(matrix[row][col]);
       }
     }
   }
 
-  return mat;
+  return res;
 };
 // @lc code=end

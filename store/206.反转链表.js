@@ -68,34 +68,50 @@ var reverseList = function (head) {
 
   // return reverse(head);
 
+  // if (!head || !head.next) {
+  //   return head;
+  // }
+
+  // const arr = [],
+  //   root = head;
+  // let p = head,
+  //   left,
+  //   right;
+  // while (p) {
+  //   arr.push(p);
+  //   p = p.next;
+  // }
+
+  // (left = 0), (right = arr.length - 1);
+  // p = head;
+
+  // while (left <= right) {
+  //   const rightNode = arr[right];
+  //   rightNode.next = p.next;
+  //   p.next = rightNode;
+  //   p = rightNode.next;
+  //   left++;
+  //   right--;
+  // }
+
+  // p.next = null;
+
+  // return root;
+
   if (!head || !head.next) {
     return head;
   }
 
-  const arr = [],
-    root = head;
-  let p = head,
-    left,
-    right;
+  const root = new ListNode();
+  let p = head;
+
   while (p) {
-    arr.push(p);
-    p = p.next;
+    const temp = p.next;
+    p.next = root.next;
+    root.next = p;
+    p = temp;
   }
 
-  (left = 0), (right = arr.length - 1);
-  p = head;
-
-  while (left <= right) {
-    const rightNode = arr[right];
-    rightNode.next = p.next;
-    p.next = rightNode;
-    p = rightNode.next;
-    left++;
-    right--;
-  }
-
-  p.next = null;
-
-  return root;
+  return root.next;
 };
 // @lc code=end

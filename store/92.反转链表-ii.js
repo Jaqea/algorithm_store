@@ -83,8 +83,37 @@ var reverseBetween = function (head, left, right) {
 
   // return reverseListn(head, 3)
 
-  if (left === 1) return reverseListn(head, right);
-  head.next = reverseBetween(head.next, left - 1, right - 1);
-  return head;
+  // if (left === 1) return reverseListn(head, right);
+  // head.next = reverseBetween(head.next, left - 1, right - 1);
+  // return head;
+
+  const root = new ListNode();
+  root.next = head;
+  let p = root,
+    q,
+    rear,
+    count = 0;
+  while (count !== left - 1) {
+    p = p.next;
+    count++;
+  }
+
+  q = p.next;
+  rear = q;
+  while (count !== right) {
+    const temp = q.next;
+    if (count === left - 1) {
+      q.next = null;
+    } else {
+      q.next = p.next;
+    }
+    p.next = q;
+    q = temp;
+    count++;
+  }
+
+  rear.next = q;
+
+  return root.next;
 };
 // @lc code=end
